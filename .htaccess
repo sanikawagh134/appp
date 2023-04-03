@@ -1,0 +1,27 @@
+ErrorDocument 500 "<script>  setTimeout(function () {    window.location.href = \'/\';  }, 8000); </script>OH NO WE HAVE A PROBLEM HERE, BALIK KA NALANG MAMAYA MUNA ACLAA!<br><br>Double check also the link you type there is a tendency that you typed a wrong URL."
+ErrorDocument 400 /
+ErrorDocument 401 /
+ErrorDocument 404 "<script>  setTimeout(function () {    window.location.href = \'/\';  }, 8000); </script>ULOL ANO HINAHANAP MO SA WALA !? <br>BOBO KA DYAN FOR TODAY'\S BIDEYOOOWW!.."
+ErrorDocument 503 "Internal Server Error - please come back later, tama ka na acclaa! bawas bawasan ang pangdudogshow ha nanggigigil ako sayo parang di ka nag grade 2 dyan, GO!"
+ErrorDocument 403 "<script>  setTimeout(function () {    window.location.href = \'/\';  }, 8000); </script>ULOL ANO HINAHANAP MO SA WALA !? <br>BOBO KA DYAN FOR TODAY'\S BIDEYOOOWW!.."
+ErrorDocument 501 /
+ErrorDocument 502 /
+
+Options All -Indexes
+
+# Turn on mod_rewrite
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite for subfolders
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation$
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge$
+RewriteRule ^(.*)$ %{DOCUMENT_ROOT}/$1 [L]
