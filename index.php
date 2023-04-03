@@ -582,8 +582,8 @@ txt += value + '\n';
 
 $('.form-checker').val(txt.trim());
 // Limit of CCs will inputted
-if(total > 30000){
-  Swal.fire({title: ':) You may check only up to 30000 CC', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 30000});
+if(total > 20){
+  Swal.fire({title: ':) Aaclaa!! Kumalma ka auto-co lang ito hindi checker kaloka ckaa goorll!', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
   return false;
 }
 
