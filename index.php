@@ -321,6 +321,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $html = curl_exec($ch);
+curl_close($ch);
 
 // find the fraud score value in the HTML using a regular expression
 preg_match('/Fraud Score: ([0-9]+)/', $html, $matches);
@@ -369,7 +370,6 @@ $url = isset($_POST['url']) ? $_POST['url'] : '';
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$output = curl_exec($ch);
 curl_close($ch);
 $parts = explode('/', $url);
 if (count($parts) > 0) {
@@ -390,8 +390,27 @@ if (count($parts) > 0) {
                     </div>
                     
                     <div class="input-group mb-1">
-					<input type="number" style="background-color:#112132;" class="form-control" id="xamount" placeholder="e.g $8.75, type 875" name="xamount" autocomplete="off">&nbsp;
-					<input type="text" style="background-color:#112132;" class="form-control" id="xemail" placeholder="placeyouremailhere@email.com" name="xemail">
+
+<?php
+
+// get the amount
+$gon = 'jungkookie.txt';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cs_live_value.'?key='.$pk_live_key.'&eid=NA');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+$headers = array();
+curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
+$result2 = curl_exec($ch);
+curl_close($ch);
+
+$json_response = json_decode($result2);
+$totalamt = isset($json_response->payment_intent->amount) ? $json_response->payment_intent->amount : '';
+$email = isset($json_response->customer->email) ? $json_response->customer->email : '';
+
+				echo '<input type="number" style="background-color:#112132;" class="form-control" id="xamount" placeholder="e.g $8.75, type 875" name="xamount" autocomplete="off" value="'.$totalamt.'">&nbsp;
+					<input type="text" style="background-color:#112132;" class="form-control" id="xemail" placeholder="placeyouremailhere@email.com" name="xemail" value="'.$email.'">';
+?>
 										</div>
 					<div class="input-group mb-1">
 									 <input type="text" style="background-color:#112132; width: 25px;" class="form-control" id="ip" placeholder="ProxyIP:Port" name="ip" autocomplete="off">

