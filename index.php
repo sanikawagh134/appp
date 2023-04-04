@@ -612,7 +612,10 @@ $('.btn-stop').attr('disabled', false);
 
 line.forEach(function(data){
 var callBack = $.ajax({
-	url: 'checkout.php?cards=' + data + '&cslive=' + cslive + '&pklive=' + pklive + '&xamount=' + xamount + '&xemail=' + xemail + '&ip=' + ip + '&hydra=' + hydra + '&referrer=Auth',
+<?php
+	$colink = isset($_POST['url']) ? urlencode($_POST['url']) : '';
+	echo "url: 'checkout.php?cards=' + data + '&cslive=' + cslive + '&pklive=' + pklive + '&xamount=' + xamount + '&xemail=' + xemail + '&ip=' + ip + '&hydra=' + hydra + '&colink=$colink&referrer=Auth',";
+?>
 	success: function(retorno){
 		if(retorno.indexOf("#CHARGED") >= 0){
 			Swal.fire({title: '+1 CHARGED CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
@@ -648,7 +651,7 @@ var callBack = $.ajax({
       $('.btn-play').attr('disabled', false);
       $('.btn-stop').attr('disabled', true);      
       	callBack.abort();
-      	return false;
+      	return;
       });
     });
   });

