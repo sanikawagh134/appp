@@ -405,8 +405,8 @@ $result2 = curl_exec($ch);
 curl_close($ch);
 
 $json_response = json_decode($result2);
-$totalamt = isset($json_response->payment_intent->amount) ? $json_response->payment_intent->amount : '';
-$email = isset($json_response->customer->email) ? $json_response->customer->email : '';
+$totalamt = isset($json_response->payment_intent->amount) ? $json_response->payment_intent->amount : (isset($json_response->invoice->amount_due) ? $json_response->invoice->amount_due : '');
+$email = isset($json_response->customer->email) ? $json_response->customer->email : (isset($json_response->customer_email) ? $json_response->customer_email : '');
 
 				echo '<input type="number" style="background-color:#112132;" class="form-control" id="xamount" placeholder="e.g $8.75, type 875" name="xamount" autocomplete="off" value="'.$totalamt.'">&nbsp;
 					<input type="text" style="background-color:#112132;" class="form-control" id="xemail" placeholder="placeyouremailhere@email.com" name="xemail" value="'.$email.'">';
