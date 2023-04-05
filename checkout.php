@@ -230,24 +230,26 @@ $currency = json_decode($result2)->currency;
 $bin = substr($credit_card, 0, 6);
 
 // Lookup the BIN database from https://binlist.net/ with 5 retries
-$max_attempts = 5; // maximum number of attempts to make
-$attempt = 1; // current attempt number
+$max_attempts = 3; // maximum number of attempts to make
+$attempt = 0; // current attempt number
 
-while($attempt <= $max_attempts) {
+$binlist_response = false;
+
+while(!$binlist_response && $attempt <= $max_attempts) {
     $binlist_api_url = "https://lookup.binlist.net/" . $cc;
     $binlist_response = @file_get_contents($binlist_api_url); // use @ to suppress errors
     $binlist_data = json_decode($binlist_response, true);
 
-    if(!empty($binlist_data)) {
+    //if(!empty($binlist_data)) {
         // data found, break out of the loop
-        break;
-    }
+        //break;
+    //}
 
     // increment attempt counter
     $attempt++;
 
     // wait for 1 second before sending the next request
-    sleep(1);
+    //sleep(1);
 }
 
 // check if valid data was found
