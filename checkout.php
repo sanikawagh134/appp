@@ -56,34 +56,44 @@ $xamount = $_GET['xamount'];
 $xemail = $_GET['xemail'];
 
 
-$hydra = $_GET['hydra'];
-$ip = $_GET['ip'];
-$proxy = ''.$ip.'';
-$proxyauth = ''.$hydra.'';
+$hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
+$ip = isset($_GET['ip']) ? $_GET['ip'] : '';
+$proxy = !empty($ip) ? $ip : '';
+$proxyauth = !empty($hydra) ? $hydra : '';
 
 $domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
-
-$curl_scraped_page = curl_exec($ch);
-
-$ip1 = curl_close($ch);
-
-if (!$ip1){
-##echo "<span class='badge badge-warning'>".$rotate." DEAD PROXY</span> ";
-  ##exit;
+$testmyip = 'https://api.ipify.org/';
+curl_setopt($ch, CURLOPT_URL,$testmyip);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
 }
 
-$curl_scraped_page;
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$curl_scraped_page = curl_exec($ch);
+$curl_error = curl_error($ch);
+curl_close($ch);
+
+if ($curl_error) {
+    echo "<span style='background-color: white; color: red;' class='badge'>$curl_error</span><br><br>";
+    exit();
+}
+
+echo "$curl_scraped_page<br>";
 
 #########if the co link has tos
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'');
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&consent[terms_of_service]=accepted&key='.$pklive.'';
@@ -97,8 +107,12 @@ curl_close($ch);
 #########1st
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state.'&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
@@ -118,8 +132,12 @@ $pm = Getstr($curl0,'"id": "','"');
 ##########2nd
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'/confirm');
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&payment_method='.$pm.'&expected_amount='.$xamount.'&last_displayed_line_item_group_details[subtotal]='.$xamount.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pklive.'';
@@ -148,8 +166,12 @@ $tos = Getstr($curl2,'"terms_of_service": "','"');
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/3ds2/authenticate');
 curl_setopt($ch, CURLOPT_POST, 1);
 
@@ -188,8 +210,12 @@ curl_close($ch);
 ###############4th
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_PROXY, $proxy);
-curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'?key='.$pklive.'&is_stripe_sdk=false&client_secret='.$client_secret.'');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
