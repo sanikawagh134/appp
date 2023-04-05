@@ -384,7 +384,7 @@ if (count($parts) > 0) {
 
 // patch the values of cs & pk
 
-					echo '<input type="text" style="background-color:#112132;" class="form-control" id="cslive" placeholder="" disabled name="cslive" value="'.$cs_live_value.'">&nbsp;       
+					echo '<input type="text" style="background-color:#112132;" class="form-control" id="cslive" placeholder="" name="cslive" value="'.$cs_live_value.'">&nbsp;       
 										<input type="text" style="background-color:#112132;" class="form-control" id="pklive" placeholder="pk_live_xxxxx" name="pklive" autocomplete="off" value="'.$pk_live_key.'">';
 ?>
                     </div>
