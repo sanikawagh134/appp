@@ -359,6 +359,7 @@ $sendinsufftotg = false;
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
     echo "\u{1F4B0}\u{2705}<br>"; // outputs 💰✅
+}
     exit();
 }
 #############DECLINECODEcurl0
