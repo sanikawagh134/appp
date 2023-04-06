@@ -480,7 +480,7 @@ if (!empty($dc2)) {
 } else if (!empty($msg)) {
   $d_code = $msg;
 }
-     echo"<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed $d_code</span> ";
+     echo"<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed $d_code</span><br>";
      exit();
    }
  
