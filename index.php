@@ -575,7 +575,7 @@ if(!xemail){
 	return false;
 }
 
-Swal.fire({title: 'Starting to checkout...', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+Swal.fire({title: 'Starting to checkout...', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 11000, html: '<audio autoplay hidden><source src="linkstarto.mp3" type="audio/mpeg"></audio>'});
 
 var line = array.filter(function(value){
 if(value.trim() !== ""){
@@ -618,13 +618,23 @@ var callBack = $.ajax({
 ?>
 	success: function(retorno){
 		if(retorno.indexOf("#CHARGED") >= 0){
-			Swal.fire({title: 'CHARGED TRANSACTION DONE!\nWow... Congratulations!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000, html: '<audio autoplay hidden><source src="sheesh.mp3" type="audio/mpeg"></audio>'});
+			Swal.fire({title: 'CHARGED TRANSACTION DONE!\nWow... Congratulations!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
+			// Add the audio tag and play the sheesh.mp3 file
+		    var audio = new Audio('sheesh.mp3');
+		    audio.autoplay = true;
+		    audio.loop = false;
+		    document.body.appendChild(audio);
 			$('#cards_charge').append(retorno);
 			removelinha();
 			charge = charge +1;
 			}
 			else if(retorno.indexOf("#LIVE") >= 0){
-			Swal.fire({title: '+1 LIVE CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000, html: '<audio autoplay hidden><source src="livebin.mp3" type="audio/mpeg"></audio>'});
+			Swal.fire({title: '+1 LIVE CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
+			// Add the audio tag and play the livebin.mp3 file
+		    var audio = new Audio('livebin.mp3');
+		    audio.autoplay = true;
+		    audio.loop = false;
+		    document.body.appendChild(audio);
 			$('#cards_aprovadas').append(retorno);
 			removelinha();
 			lives = lives +1;
@@ -647,7 +657,7 @@ var callBack = $.ajax({
         }
       });
       $('.btn-stop').click(function(){
-      Swal.fire({title: 'Pause - Success!', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+      Swal.fire({title: 'Pause - Success!', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000, html: '<audio autoplay hidden><source src="ooh.mp3" type="audio/mpeg"></audio>'});
       $('.btn-play').attr('disabled', false);
       $('.btn-stop').attr('disabled', true);      
       	callBack.abort();
