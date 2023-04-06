@@ -618,13 +618,13 @@ var callBack = $.ajax({
 ?>
 	success: function(retorno){
 		if(retorno.indexOf("#CHARGED") >= 0){
-			Swal.fire({title: '+1 CHARGED CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+			Swal.fire({title: 'CHARGED TRANSACTION DONE!\nWow... Congratulations!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000, html: '<audio autoplay hidden><source src="sheesh.mp3" type="audio/mpeg"></audio>'});
 			$('#cards_charge').append(retorno);
 			removelinha();
 			charge = charge +1;
 			}
 			else if(retorno.indexOf("#LIVE") >= 0){
-			Swal.fire({title: '+1 LIVE CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+			Swal.fire({title: '+1 LIVE CC', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000, html: '<audio autoplay hidden><source src="livebin.mp3" type="audio/mpeg"></audio>'});
 			$('#cards_aprovadas').append(retorno);
 			removelinha();
 			lives = lives +1;
@@ -640,7 +640,7 @@ var callBack = $.ajax({
 		$('.testadas').text(testadas);
 		
 		if(testadas == total){
-			Swal.fire({title: 'All CC(s) have been checked successfully!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+			Swal.fire({title: 'All CC(s) have been checked successfully!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 9000, html: '<audio autoplay hidden><source src="donecheck.mp3" type="audio/mpeg"></audio>'});
 			$('.btn-play').attr('disabled', false);
 			$('.btn-stop').attr('disabled', true);
 		}
