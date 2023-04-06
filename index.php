@@ -602,7 +602,7 @@ txt += value + '\n';
 $('.form-checker').val(txt.trim());
 // Limit of CCs will inputted
 if(total > 100){
-  Swal.fire({title: 'Aaclaa!! Kumalma ka auto-co lang ito hindi checker kaloka ckaa goorll!\n100 per ccs per check only muna okay?', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
+  Swal.fire({title: 'Aaclaa!! Kumalma ka auto-co lang ito hindi checker kaloka kaa goouuurll!\n100 ccs per check only muna okay?', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
   return false;
 }
 
