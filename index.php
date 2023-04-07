@@ -414,11 +414,12 @@ $email = isset($json_response->customer->email) ? $json_response->customer->emai
 										</div>
 					<div class="input-group mb-1">
 									 <input type="text" style="background-color:#112132; width: 25px;" class="form-control" id="ip" placeholder="ProxyIP:Port" name="ip" autocomplete="off">
-					<input type="text" style="background-color:#112132;width: 25px;" class="form-control" id="hydra" placeholder="Username:Password of Proxy if available" name="hydra" autocomplete="off">
+					<input type="text" style="background-color:#112132;width: 25px;" class="form-control" id="hydra" placeholder="Username:Password" name="hydra" autocomplete="off">
 					</div>
 
-					<button class="btn btn-play btn-glow btn-bg-gradient-x-blue-cyan text-white" style="width: 49%; float: center;"><i class="fa fa-play"></i> START</button>
-					<!--- <button class="btn btn-stop btn-glow btn-bg-gradient-x-red-pink text-white" style="width: 49%; float: right;" disabled><i class="fa fa-stop"></i> STOP</button>--->
+
+					<button class="btn btn-play btn-glow btn-bg-gradient-x-blue-cyan text-white" style="width: 49%; float: left;"><i class="fa fa-play"></i> START</button>
+					<button class="btn btn-stop btn-glow btn-bg-gradient-x-red-pink text-white" style="width: 49%; float: right;" disabled><i class="fa fa-stop"></i> STOP</button>
 					
 				</div>
 			</div>
@@ -650,20 +651,20 @@ var callBack = $.ajax({
 		$('.testadas').text(testadas);
 		
 		if(testadas == total){
-			Swal.fire({title: 'All CC(s) have been checked successfully!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 9000, html: '<audio autoplay hidden><source src="donecheck.mp3" type="audio/mpeg"></audio>'});
+			Swal.fire({title: 'All CC(s) have been checked successfully!', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 10000, html: '<audio autoplay hidden><source src="donecheck.mp3" type="audio/mpeg"></audio>'});
 			$('.btn-play').attr('disabled', false);
 			$('.btn-stop').attr('disabled', true);
 			}
         }
       });
       $('.btn-stop').click(function(){
-      Swal.fire({title: 'Pause - Success!', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000, html: '<audio autoplay hidden><source src="ooh.mp3" type="audio/mpeg"></audio>'});
+      Swal.fire({title: 'Pause - Success!', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000, html: '<audio autoplay hidden><source src="ooh.mp3" type="audio/mpeg"></audio>'});
       $('.btn-play').attr('disabled', false);
       $('.btn-stop').attr('disabled', true);      
       	callBack.abort();
-      	return;
+      	location.reload();
       	});
-	}, 5000 * index);
+	}, 4000 * index);
 		});
 	});
 });
