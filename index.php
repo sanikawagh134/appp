@@ -190,7 +190,7 @@ echo '<!DOCTYPE html>
         </div>
         <input type="submit" value="Proceed"><br><br>
         Is your Stripe PK not here?<br>
-    Then request one <a href="./?feedback=send" target="_blank">here</a>
+    Then request one by <a href="./?feedback=send" target="_blank">"clicking here"</a>
     </form>';
 };
 // this is the page when successfully entered the correct password & url
@@ -890,18 +890,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['feedback']) && $_GET['f
         $name = $_POST['name'];
         $email = $_POST['email'];
         $feedback = $_POST['feedback'];
+        $domain = $_SERVER['HTTP_HOST'];
+
+        // SET DESTINATION OF YOUR TG BOT
+		$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
+		$chatID = urlencode('-1001808253666');
 
         // Send the feedback to your email
         $to = 'augustjay20@duck.com';
-        $subject = 'Feedback from ' . $name;
-        $message = 'Name: ' . $name . "\r\n" .
-                   'Email: ' . $email . "\r\n" .
+        $subject = 'Feedback by ' . $name . ' via ' . $domain;
+        $message = 'Email: ' . $email . "\r\n\n" .
                    'Feedback: ' . $feedback;
         $headers = 'From: ' . $email . "\r\n" .
                    'Reply-To: ' . $email . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
 
         mail($to, $subject, $message, $headers);
+
+      	// SEND TO TG BOT WHEN FEEDBACK SUBMITTED
+		$feedback_message = "Feedback by $name\r\n\nEmail: $email\r\n\nMessage:\r\n$feedback\r\n\nSent via: $domain";
+		$sendfeedback = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($feedback_message).'';
 
         // design
 ?>
@@ -936,9 +944,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['feedback']) && $_GET['f
 
 		</style>
 <?php
-        // Show a success message
+		// BOT RETRY TO SEND IF ITS NOT WORKS
+		$max_retries = 3;
+		$num_retries = 0;
+		$sendfeedbacktotg = false;
+
+        // Show a success message & send feedback to TG
+		while (!$sendfeedbacktotg && $num_retries < $max_retries) {
+	    $sendfeedbacktotg = @file_get_contents($sendfeedback);
+	    $num_retries++;
         echo '<title>Feedback was sent!</title>
         <p class="feedback-message">Thank you for your feedback!<br><br><a href="./" class="go-back">GO BACK</a></p>';
+    	}
     }
     ?>
 </body>
