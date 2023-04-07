@@ -1,6 +1,34 @@
 <?php
+
+//SET YOUR RANDOM HEADERS
+$headers = array(
+    'User-Agent: ' => array(
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Edge/16.16299',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
+  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).'',
+  'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko',
+  'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko'
+),
+    // add more headers here
+);
+
+$randomHeaders = array();
+
+// SET YOUR COOKIES
+if (!is_dir("cookies")) {
+    mkdir("cookies");
+}
+$gon = getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie" . rand(10000, 9999999) . ".txt";
+$cookietempfile = fopen($gon, 'w+');
+fclose($cookietempfile);
+
 // this is index first visit of user
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
 ?>
 <!DOCTYPE html>
 <html><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -158,7 +186,9 @@ echo '<!DOCTYPE html>
             <option>I will provide my own pk_live</option>
             </select>
         </div>
-        <input type="submit" value="Proceed">
+        <input type="submit" value="Proceed"><br><br>
+        Is your Stripe PK not here?<br>
+    Then request one <a href="./?feedback=send" target="_blank">here</a>
     </form>';
 };
 // this is the page when successfully entered the correct password & url
@@ -394,13 +424,11 @@ if (count($parts) > 0) {
 <?php
 
 // get the amount
-$gon = 'jungkookie.txt';
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cs_live_value.'?key='.$pk_live_key.'&eid=NA');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-$headers = array();
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
+curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result2 = curl_exec($ch);
 curl_close($ch);
 
@@ -410,6 +438,16 @@ $email = isset($json_response->customer->email) ? $json_response->customer->emai
 
 				echo '<input type="number" style="background-color:#112132;" class="form-control" id="xamount" placeholder="e.g $8.75, type 875" name="xamount" autocomplete="off" value="'.$totalamt.'">&nbsp;
 					<input type="text" style="background-color:#112132;" class="form-control" id="xemail" placeholder="placeyouremailhere@email.com" name="xemail" value="'.$email.'">';
+// DELETE COOKIES
+if (is_file($gon) && is_writable($gon)) {
+    unlink($gon);
+}
+
+// WELL IF MARAMING TXT FILE SA COOKIES FOLDER, WOOSHOO THEM!!
+$cookieFiles = glob(getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie*.txt");
+foreach ($cookieFiles as $cookieFile) {
+    unlink($cookieFile);
+}
 ?>
 										</div>
 					<div class="input-group mb-1">
@@ -662,9 +700,11 @@ var callBack = $.ajax({
       $('.btn-play').attr('disabled', false);
       $('.btn-stop').attr('disabled', true);      
       	callBack.abort();
-      	location.reload();
+      	setTimeout(function() {
+        location.reload();
+    }, 3000); // 5000 milliseconds = 5 seconds
       	});
-	}, 4000 * index);
+	}, 3000 * index);
 		});
 	});
 });
@@ -773,3 +813,131 @@ function myTimer() {
 <?php
 }
 ?>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['feedback']) && $_GET['feedback'] === 'send') {
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Form</title>
+    <style>
+        /* CSS styles */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+        form {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        input[type="password"] {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="index.php">
+        <h2>Feedback Form</h2>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="feedback">Feedback:</label><br>
+        <textarea id="feedback" name="feedback" rows="5" required></textarea><br>
+
+        <input type="submit" name="submit" value="Submit">
+    </form>
+
+    <?php
+}
+    if(isset($_POST['submit'])) {
+        // Get the form data
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $feedback = $_POST['feedback'];
+
+        // Send the feedback to your email
+        $to = 'augustjay20@duck.com';
+        $subject = 'Feedback from ' . $name;
+        $message = 'Name: ' . $name . "\r\n" .
+                   'Email: ' . $email . "\r\n" .
+                   'Feedback: ' . $feedback;
+        $headers = 'From: ' . $email . "\r\n" .
+                   'Reply-To: ' . $email . "\r\n" .
+                   'X-Mailer: PHP/' . phpversion();
+
+        mail($to, $subject, $message, $headers);
+
+        // design
+?>
+        <style>
+    	.feedback-message {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        font-size: 20px;
+        margin-top: 20px;
+   		}
+
+   		a.go-back {
+		  color: #4CAF50;
+		  text-decoration: none;
+		  font-size: 16px;
+		  margin-top: 10px;
+		  display: inline-block;
+		  border: 1px solid #4CAF50;
+		  padding: 5px 10px;
+		  border-radius: 5px;
+		  transition: all 0.3s ease;
+		}
+
+		a.go-back:hover {
+		  background-color: #4CAF50;
+		  color: white;
+		  text-decoration: none;
+		}
+
+		</style>
+<?php
+        // Show a success message
+        echo '<title>Feedback was sent!</title>
+        <p class="feedback-message">Thank you for your feedback!<br><br><a href="./" class="go-back">GO BACK</a></p>';
+    }
+    ?>
+</body>
+</html>
