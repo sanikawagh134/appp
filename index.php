@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
     <form action="index.php" method="POST">
         <h2>Password required to open this page:</h2>
         <div style="text-align:center;">
-            <input type="password" name="pass" placeholder="sabi po nino?">
+            <input type="password" name="pass" placeholder="sabi po nino?" required>
         </div>
         <input type="submit" value="Enter">
     </form>
@@ -163,10 +163,12 @@ echo '<!DOCTYPE html>
 </head>
 <body>
     <form action="index.php" method="POST">
-        <h2>Provide the stripe co link below:</h2>
+        <h2>Provide the stripe co link below</h2>
         <div style="text-align:center;">
             <input type="hidden" name="pass" value="'.$pass.'">
-            <input type="text" name="url" placeholder="paste the link here" value"">
+            Checkout Link:<br>
+            <input type="text" name="url" placeholder="https://checkout.stripe.com/c/pay/cs_live_a15Y1IYZwo4SGlMCIQm4EVSlDsU4bd1FhjEacYvmFE0ODxth5GaIa4r8lF#fidkdWxOYHwnPyd1blppbHNgWmpiaXFXb30zREJobWxuUUtPZ2JBTFxPTDU1MEA3Z0dTf0QnKSdobGF2Jz9%2BJ2JwbGEnPydLRCcpJ2hwbGEnPydLRCcpJ3ZsYSc%2FJ0tEJ3gpJ2dgcWR2Jz9eWCknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknd2BjYHd3YHdKd2xibGsnPydtcXF1dj8qKnJycit2cWprYHdgZGErZmpoJ3gl" required><br>
+            PK Live Key:<br>
             <select name="pk_live_key">
             <option selected disabled hidden>Select PK Options</option>
             <option value="pk_live_rHudX0Gd50MtPyISpIBdShXq">Mediafire</option>
@@ -800,7 +802,7 @@ function myTimer() {
     kasi *huminga saglit* accept---<br>
     aksiip na tayo nilaaaa<br>
     ng mama mo, sa tita ko noon.<br></h2>
-        <input type="password" name="pass" placeholder="huh!?.."><br>
+        <input type="password" name="pass" placeholder="huh!?.." required><br>
         <input type="submit" value="Enter">
     </form>
     </div>
