@@ -106,69 +106,73 @@ echo '<!DOCTYPE html>
      <meta http-equiv="cache-control" content="no-cache" />
     <title>Ang Key ng Ina mo - ang susi sa buhay mo</title>
     <style>
-        body {
-            background-color: #f2f2f2;
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        
-        form {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-            text-align: center;
-        }
+	body {
+	    background-color: #f2f2f2;
+	    font-family: Arial, sans-serif;
+	}
 
-        select {
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-size: 16px;
-            text-align: center;
-        }
+	.form-container {
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	    min-height: 100vh;
+	}
 
-        input[type="text"] {
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-size: 16px;
-            text-align: center;
-        }
+	.form {
+	    background-color: #fff;
+	    border-radius: 10px;
+	    padding: 30px;
+	    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+	    text-align: center;
+	    max-width: 400px;
+	}
 
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <form action="index.php" method="POST">
-        <h2>Provide the stripe co link below</h2>
-        <div style="text-align:center;">
+	.form select,
+	.form input[type="text"] {
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    padding: 10px;
+	    margin-bottom: 20px;
+	    width: 100%;
+	    box-sizing: border-box;
+	    font-size: 16px;
+	    text-align: center;
+	}
+
+	.form select {
+	    max-width: 100%;
+	}
+
+	.form label {
+	    display: block;
+	    text-align: center;
+	    margin-bottom: 5px;
+	}
+
+	.form input[type="submit"] {
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    border-radius: 5px;
+	    padding: 10px 20px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    cursor: pointer;
+	}
+	</style>
+
+	<body>
+    <div class="form-container">
+        <form class="form" action="index.php" method="POST">
+            <h2>Provide the stripe co link below</h2>
             <input type="hidden" name="pass" value="'.$pass.'">
-            Checkout Link:<br>
-            <input type="text" name="url" placeholder="https://checkout.stripe.com/c/pay/cs_live_a15Y1IYZwo4SGlMCIQm4EVSlDsU4bd1FhjEacYvmFE0ODxth5GaIa4r8lF#fidkdWxOYHwnPyd1blppbHNgWmpiaXFXb30zREJobWxuUUtPZ2JBTFxPTDU1MEA3Z0dTf0QnKSdobGF2Jz9%2BJ2JwbGEnPydLRCcpJ2hwbGEnPydLRCcpJ3ZsYSc%2FJ0tEJ3gpJ2dgcWR2Jz9eWCknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknd2BjYHd3YHdKd2xibGsnPydtcXF1dj8qKnJycit2cWprYHdgZGErZmpoJ3gl" required><br>
-            PK Live Key:<br>
+            <label>Checkout Link:</label>
+            <input type="text" name="url" placeholder="https://checkout.stripe.com/c/pay/cs_live_a15Y1IYZwo4SGlMCIQm4EVSlDsU4bd1FhjEacYvmFE0ODxth5GaIa4r8lF#fidkdWxOYHwnPyd1blppbHNgWmpiaXFXb30zREJobWxuUUtPZ2JBTFxPTDU1MEA3Z0dTf0QnKSdobGF2Jz9%2BJ2JwbGEnPydLRCcpJ2hwbGEnPydLRCcpJ3ZsYSc%2FJ0tEJ3gpJ2dgcWR2Jz9eWCknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknd2BjYHd3YHdKd2xibGsnPydtcXF1dj8qKnJycit2cWprYHdgZGErZmpoJ3gl" required>
+            <br>
+            <label>PK Live Key:</label>
             <select name="pk_live_key_select" id="pk_live_key_select">
             <option disabled selected hidden>Select PK Options</option>
             <option value="">I will provide my own pk_live</option>
@@ -207,11 +211,10 @@ echo '<!DOCTYPE html>
 			        }
 			    });
 			</script>
-        </div>
         <input type="submit" value="Proceed"><br><br>
         Is your Stripe PK not here?<br>
     Then request one by <a href="./?feedback=send" target="_blank">"clicking here"</a>
-    </form>';
+    </form></div>';
 };
 // this is the page when successfully entered the correct password & url
 
