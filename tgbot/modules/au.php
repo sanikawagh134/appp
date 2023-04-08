@@ -47,7 +47,7 @@ if (strpos($fimaa, "Security code is incorrect") || strpos($fimaa, "Security cod
       file_put_contents('./tmp/ccn.txt', $lista . PHP_EOL, FILE_APPEND);
 }
 
-  if (strpos($fimaa, "CARD AUTHORIZED ✅") || strpos($fimaa, "CHARGED CC")) {
+  if (strpos($fimaa, "Card Authorized ✅") || strpos($fimaa, "CHARGED CC")) {
   $pass = 'APPROVED ✅';
     file_put_contents('./tmp/auth.txt', $lista . PHP_EOL, FILE_APPEND);
 }
