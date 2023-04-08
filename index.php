@@ -380,7 +380,7 @@ if ($risk !== null) {
 	 LIVE: <span class="badge badge-success aprovadas"> 0</span>
 	 DEAD: <span class="badge badge-danger reprovadas"> 0</span>
 	 TOTAL: <span class="badge badge-primary carregadas"> 0</span>
-	 LIMIT: <span class="badge badge-secondary"> 100</span><br>
+	 LIMIT: <span class="badge badge-secondary"> 500</span><br>
 	 DATE: <span class="badge badge-dark" id="datetime">01/02/2022</span> •  TIME: <span class="badge badge-dark" id="timenow">12:00:00 AM</span> •  IP: <span class="badge badge-dark">'.$ip.'</span> •  <span class="badge badge-dark">FRAUD SCORE OF IP: '.$finalscore.' ('.$risk.')</span>
 	 </div>
 	 	  </div>';
@@ -641,8 +641,8 @@ txt += value + '\n';
 
 $('.form-checker').val(txt.trim());
 // Limit of CCs will inputted
-if(total > 100){
-  Swal.fire({title: 'Aaclaa!! Kumalma ka auto-co lang ito hindi checker kaloka kaa goouuurll!\n100 ccs per check only muna okay?', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
+if(total > 500){
+  Swal.fire({title: 'Aaclaa!! Kumalma ka auto-co lang ito hindi checker kaloka kaa goouuurll!\n500 ccs per check only muna okay?', icon: 'warning', showConfirmButton: false, toast: true, position: 'top-end', timer: 5000});
   return false;
 }
 
