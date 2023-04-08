@@ -89,7 +89,7 @@ $cclist = preg_replace("/[^0-9|\n]/", "",$message);
   if (count($array) < 5){
   exit();
  }
-   /** if(strlen($array[4] < 28)){
+   /**if(strlen($array[4] < 28)){
      
    }
    else {
