@@ -249,6 +249,7 @@ echo '<!DOCTYPE html>
             <option value="pk_live_51McKbyIj7RaCgFGVFRur9zCpNqqXAievH3zLpgf1WpmtcIIYIFlzFiKUHUuxly3zss78QnZtr8AaqHkJvRRchjSG00nQrHQcPW">nat.dev</option>
             <option value="pk_live_5C5OBFQIejDjAbVnFmZGpcRg">instaproxy</option>
             <option value="pk_live_51JbCOgG4xVdWcYVX7t5gYnyeM2EjwUKgKecEMPHBII5ym8CgfLbo1SCTDfqsLlISxfWruslI2Riz7SOIzwu86eRr00WLhP8xHm">juproxy</option>
+            <option value="pk_live_51IkuesDMZj1VYsMfrSM4CszwyPI6wi887N1KIXWW3M2OrEeFTKzhfX4lsppbSLx3mkTvKU4eNLfMti15LgXnmamw00KIq31uQv">rdp.sh</option>
             </select>
             <span id="custom_pk_label" style="display: none;">Enter your own pk_live_key</span><br>
             <input type="text" style="display: none;" id="custom_pk_live" placeholder="pk_live_NjCA1yGv5ie85lOhnTt2E11z005pitDerS" name="pk_live_key" autocomplete="off" required>
