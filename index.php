@@ -265,7 +265,7 @@ echo '<!DOCTYPE html>
 	            <option value="30000">30 seconds</option>
 	            <option value="60000">1 minute</option>
 	            </select>
-	            <small><i>(if not delay has been set, the default is 5 seconds)</i></small><br><br>
+	            <small><i>(if no delay has been set, the default is 5 seconds)</i></small><br><br>
             <script>
 			    const selectElement = document.getElementById("pk_live_key_select");
 			    const customPkInput = document.getElementById("custom_pk_live");
