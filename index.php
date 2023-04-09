@@ -614,7 +614,7 @@ foreach ($cookieFiles as $cookieFile) {
 $(document).ready(function(){
 
 
-Swal.fire({ title: "Welcome teaaa!", text: "At dahil very good ka may 5 stars ka sakin ddzzaaiii!", icon: "warning", confirmButtonText: "Pake ko!?...", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
+Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://aliceschuberg.unaux.com/\" target=\"_blank\">Link 2 (aliceschuberg.unaux.com)</a><br><a href=\"http://aliceschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (aliceschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
 
 
 $('.show-charge').click(function(){
