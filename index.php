@@ -259,11 +259,15 @@ echo '<!DOCTYPE html>
 	            <option value="250">No delay</option>
 	            <option value="3000">3 seconds</option>
 	            <option value="5000">5 seconds</option>
-	            <option value="7000">7 seconds</option>
+	            <option value="7500">7 seconds</option>
 	            <option value="10000">10 seconds</option>
 	            <option value="15000">15 seconds</option>
+	            <option value="20000">20 seconds</option>
 	            <option value="30000">30 seconds</option>
 	            <option value="60000">1 minute</option>
+	            <option value="120000">2 minutes</option>
+	            <option value="180000">3 minutes</option>
+	            <option value="300000">5 minutes</option>
 	            </select>
 	            <small><i>(if no delay has been set, the default is 5 seconds)</i></small><br><br>
             <script>
@@ -463,10 +467,19 @@ if ($fraud_score !== null) {
 } else {
     $finalscore = "";
 }
-if ($risk !== null) {
-    $risk = strtoupper($risk);
+if ($risk === "low") {
+	$ipinfofraud_colorlvl = "lightgreen";
+} elseif ($risk === "medium") {
+	$ipinfofraud_colorlvl = "orange";
+} elseif ($risk === "high") {
+	$ipinfofraud_colorlvl = "red";
 } else {
-    $risk = "";
+	$ipinfofraud_colorlvl = "white";
+}
+if ($risk !== null) {
+    $ipinfofraud = ' •  IP: <span class="badge badge-dark">'.$ip.'</span> •  <span class="badge badge-dark">FRAUD SCORE OF IP: '.$finalscore.' (<a href="https://scamalytics.com/ip/'.$ip.'" target="_blank"><font color="'.$ipinfofraud_colorlvl.'">'.strtoupper($risk).'</font></a>)</span>';
+} else {
+    $ipinfofraud = "";
 }
 
     
@@ -478,7 +491,7 @@ if ($risk !== null) {
 	 DEAD: <span class="badge badge-danger reprovadas"> 0</span>
 	 TOTAL: <span class="badge badge-primary carregadas"> 0</span>
 	 LIMIT: <span class="badge badge-secondary"> 500</span><br>
-	 DATE: <span class="badge badge-dark" id="datetime">01/02/2022</span> •  TIME: <span class="badge badge-dark" id="timenow">12:00:00 AM</span> •  IP: <span class="badge badge-dark">'.$ip.'</span> •  <span class="badge badge-dark">FRAUD SCORE OF IP: '.$finalscore.' ('.$risk.')</span>
+	 DATE: <span class="badge badge-dark" id="datetime">01/02/2022</span> •  TIME: <span class="badge badge-dark" id="timenow">12:00:00 AM</span>'.$ipinfofraud.'
 	 </div>
 	 	  </div>';
 ?>
@@ -612,9 +625,7 @@ foreach ($cookieFiles as $cookieFile) {
 <script>
 
 $(document).ready(function(){
-
-
-Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><a href=\"https://cardinalalice.com/\" target=\"_blank\">Main (cardinalalice.com)</a><br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://aliceschuberg.unaux.com/\" target=\"_blank\">Link 2 (aliceschuberg.unaux.com)</a><br><a href=\"http://aliceschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (aliceschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
+Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><br><span class=\"badge badge-primary\">MAIN WEBSITES</span><br><a href=\"https://cardinalalice.com/\" target=\"_blank\">Main 1 (cardinalalice.com)</a><br><a href=\"https://alizuberg.com/\" target=\"_blank\">Main 2 (alizuberg.com)</a><br><br><span class=\"badge badge-success\">MIRROR LINKS</span><br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://aliceschuberg.unaux.com/\" target=\"_blank\">Link 2 (aliceschuberg.unaux.com)</a><br><a href=\"http://aliceschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (aliceschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
 
 
 $('.show-charge').click(function(){

