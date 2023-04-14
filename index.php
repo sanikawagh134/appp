@@ -233,7 +233,7 @@ echo '<!DOCTYPE html>
             <br>
             <label>PK Live Key:</label>
             <select name="pk_live_key_select" id="pk_live_key_select" required>
-            <option disabled selected hidden>Select PK Options</option>
+            <option selected hidden>Select PK Options</option>
             <option value="">I will provide my own pk_live</option>
             <option value="pk_live_rHudX0Gd50MtPyISpIBdShXq">Mediafire</option>
             <option value="pk_live_ogltRjx6AGmhikTNJbgDIYJI005E2bBVzA">Moviebox</option>
@@ -250,13 +250,15 @@ echo '<!DOCTYPE html>
             <option value="pk_live_5C5OBFQIejDjAbVnFmZGpcRg">instaproxy</option>
             <option value="pk_live_51JbCOgG4xVdWcYVX7t5gYnyeM2EjwUKgKecEMPHBII5ym8CgfLbo1SCTDfqsLlISxfWruslI2Riz7SOIzwu86eRr00WLhP8xHm">juproxy</option>
             <option value="pk_live_51IkuesDMZj1VYsMfrSM4CszwyPI6wi887N1KIXWW3M2OrEeFTKzhfX4lsppbSLx3mkTvKU4eNLfMti15LgXnmamw00KIq31uQv">rdp.sh</option>
+            <option value="pk_live_T5j5vpjgnfBOiHyqWwfFqRmm">Cloudzy</option>
             </select>
             <span id="custom_pk_label" style="display: none;">Enter your own pk_live_key</span><br>
             <input type="text" style="display: none;" id="custom_pk_live" placeholder="pk_live_NjCA1yGv5ie85lOhnTt2E11z005pitDerS" name="pk_live_key" autocomplete="off" required>
             <label>Delay:</label>
             <select name="delay" required>
 	            <option value="5000" selected hidden>Choose here</option>
-	            <option value="0">No delay</option>
+	            <option value="250">No delay</option>
+	            <option value="1000">1 second</option>
 	            <option value="3000">3 seconds</option>
 	            <option value="5000">5 seconds</option>
 	            <option value="7500">7 seconds</option>
@@ -722,10 +724,10 @@ if(!xamount){
 	return false;
 }
 
-if(!xemail){
-	Swal.fire({title: 'Wheres the email?? please add an email!!', icon: 'error', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
-	return false;
-}
+//if(!xemail){
+//	Swal.fire({title: 'Wheres the email?? please add an email!!', icon: 'error', showConfirmButton: false, toast: true, position: 'top-end', timer: 3000});
+//	return false;
+//}
 
 Swal.fire({title: 'Starting to checkout...', icon: 'success', showConfirmButton: false, toast: true, position: 'top-end', timer: 11000, html: '<audio autoplay hidden><source src="linkstarto.mp3" type="audio/mpeg"></audio>'});
 
