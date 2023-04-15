@@ -120,19 +120,17 @@ if (empty($_GET['xemail'])) {
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
 $ips_accounts = array(
-1 =>    '104.234.11.110:8020',
-        '172.86.123.167:8020',
-        '157.254.195.104:8020',
+1 =>    //'104.234.11.110:8020',
+        //'172.86.123.167:8020',
+        //'157.254.195.104:8020',
         '', //this is your default hosting server, so just leave it blank
-        '166.0.94.105:8020',
-        '45.147.228.20:8020',
-        '166.0.94.111:8020',
-        '', //this is your default hosting server, so just leave it blank
-        '188.191.106.251:8020',
-        '109.105.198.174:8020',
-        '85.208.107.228:8020',
-        '', //this is your default hosting server, so just leave it blank
-        '109.105.198.161:8020'
+        //'166.0.94.105:8020',
+        //'45.147.228.20:8020',
+        //'166.0.94.111:8020',
+        //'188.191.106.251:8020',
+        //'109.105.198.174:8020',
+        //'85.208.107.228:8020',
+        //'109.105.198.161:8020'
     );
 $rotateips = $ips_accounts[array_rand($ips_accounts)];
 $proxy = !empty($ip) ? $ip : ''.$rotateips.'';
