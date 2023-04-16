@@ -110,7 +110,7 @@ $pk = $_GET['pklive'];
 $colink = $_GET['colink'];
 $amt = $_GET['xamount'];
 if (empty($_GET['xemail'])) {
-    $email = 'alckurt30' . rand(000000, 999999) . '@gmail.com';
+    $email = 'phcaliceschuberg' . rand(000000, 999999) . '@gmail.com';
     $xemail = str_replace('@', '%40', $email);
 } elseif (!empty($_GET['xemail'])) {
     $email = $_GET['xemail'];
