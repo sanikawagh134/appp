@@ -307,7 +307,7 @@ if (isset($_POST['pass']) && $_POST['pass'] === 'amacanaaclaa'
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">    
-    <title>Alice Schuberg - autoco</title>
+    <title>RICH - autoco</title>
     <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i%7CComfortaa:300,400,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="theme-assets/css/vendors.css">
@@ -487,9 +487,9 @@ if ($risk !== null) {
 
     
 	 echo '<div class="text-center" style="background-color:#112132;">
-	 <h4 class="mb-2"><strong>Alice Schuberg\'s Stripe Auto-Checkout</strong></h4>
+	 <h4 class="mb-2"><strong>RICH\'s Stripe Auto-Checkout</strong></h4>
 	 <div class="form-group">
-	 ALICE CHARGED: <span class="badge badge-success charge">0</span>
+	 RICH CHARGED: <span class="badge badge-success charge">0</span>
 	 LIVE: <span class="badge badge-success aprovadas"> 0</span>
 	 DEAD: <span class="badge badge-danger reprovadas"> 0</span>
 	 TOTAL: <span class="badge badge-primary carregadas"> 0</span>
@@ -588,7 +588,7 @@ foreach ($cookieFiles as $cookieFile) {
 						<button type="show" class="btn btn-primary btn-sm show-charge"><i class="fa fa-eye-slash"></i></button>
 					<button class="btn btn-success btn-sm btn-copy1"><i class="fa fa-copy"></i></button>					
 					</div>
-					<h4 class="card-title mb-1"><i class="fa fa-check-circle text-success"></i> ALICE CHARGED <span class="badge badge-success charge">0</span></h4>					
+					<h4 class="card-title mb-1"><i class="fa fa-check-circle text-success"></i> RICH CHARGED <span class="badge badge-success charge">0</span></h4>					
 			<div id='cards_charge'></div>
 				</div>				
 			</div>
@@ -628,7 +628,7 @@ foreach ($cookieFiles as $cookieFile) {
 <script>
 
 $(document).ready(function(){
-Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><br><span class=\"badge badge-primary\">MAIN WEBSITES</span><br><a href=\"https://cardinalalice.com/\" target=\"_blank\">Main 1 (cardinalalice.com)</a><br><a href=\"https://alizuberg.com/\" target=\"_blank\">Main 2 (alizuberg.com)</a><br><br><span class=\"badge badge-success\">MIRROR LINKS</span><br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://aliceschuberg.unaux.com/\" target=\"_blank\">Link 2 (aliceschuberg.unaux.com)</a><br><a href=\"http://aliceschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (aliceschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
+Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><br><span class=\"badge badge-primary\">MAIN WEBSITES</span><br><a href=\"https://cardinalRICH.com/\" target=\"_blank\">Main 1 (cardinalRICH.com)</a><br><a href=\"https://alizuberg.com/\" target=\"_blank\">Main 2 (alizuberg.com)</a><br><br><span class=\"badge badge-success\">MIRROR LINKS</span><br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://RICHschuberg.unaux.com/\" target=\"_blank\">Link 2 (RICHschuberg.unaux.com)</a><br><a href=\"http://RICHschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (RICHschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
 
 
 $('.show-charge').click(function(){
