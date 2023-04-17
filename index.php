@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
      <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
      <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-16x16.png">
      <meta http-equiv="cache-control" content="no-cache" />
-    <title>Ang Key ng Ina mo - ang susi sa buhay mo</title>
+    <title>GODRICH</title>
     <style>
         body {
             background-color: #f2f2f2;
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['feedback'])) {
 }
 
 // this is the page when successfully entered the correct password & requires url
-if (isset($_POST['pass']) && $_POST['pass'] === 'amacanaaclaa'
+if (isset($_POST['pass']) && $_POST['pass'] === 'godrich'
     && (!isset($_POST['url']) || empty($_POST['url']))) {
 
 $pass = $_POST['pass']; // get the pass from the previous form
@@ -163,7 +163,7 @@ echo '<!DOCTYPE html>
      <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
      <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon-16x16.png">
      <meta http-equiv="cache-control" content="no-cache" />
-    <title>Ang Key ng Ina mo - ang susi sa buhay mo</title>
+    <title>GODRICH</title>
     <style>
 	body {
 	    background-color: #f2f2f2;
@@ -298,7 +298,7 @@ echo '<!DOCTYPE html>
 };
 // this is the page when successfully entered the correct password & url
 
-if (isset($_POST['pass']) && $_POST['pass'] === 'amacanaaclaa'
+if (isset($_POST['pass']) && $_POST['pass'] === 'godrich'
     && isset($_POST['url']) && !empty($_POST['url'])) {
 ?>
 <!DOCTYPE html>
@@ -628,7 +628,7 @@ foreach ($cookieFiles as $cookieFile) {
 <script>
 
 $(document).ready(function(){
-Swal.fire({ title: "Backup Links", html: "<p align=\"center\">Please bookmark the following links for your future reference:<br><br><span class=\"badge badge-primary\">MAIN WEBSITES</span><br><a href=\"https://cardinalRICH.com/\" target=\"_blank\">Main 1 (cardinalRICH.com)</a><br><a href=\"https://alizuberg.com/\" target=\"_blank\">Main 2 (alizuberg.com)</a><br><br><span class=\"badge badge-success\">MIRROR LINKS</span><br><a href=\"https://arizuberg.glitch.me/\" target=\"_blank\">Link 1 (arizuberg.glitch.me)</a><br><a href=\"http://RICHschuberg.unaux.com/\" target=\"_blank\">Link 2 (RICHschuberg.unaux.com)</a><br><a href=\"http://RICHschuberg01.vastserve.com/\" target=\"_blank\">Link 3 (RICHschuberg01.vastserve.com)</a>", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
+Swal.fire({ title: "WARNING", html: "<p align=\"center\">owned by rich", icon: "warning", confirmButtonText: "Okay, thanks!", buttonsStyling: false, confirmButtonClass: 'btn btn-primary'});
 
 
 $('.show-charge').click(function(){
@@ -846,7 +846,7 @@ function myTimer() {
 	
 </script>
 <?php
-} else if (isset($_POST['pass']) && $_POST['pass'] !== 'amacanaaclaa'
+} else if (isset($_POST['pass']) && $_POST['pass'] !== 'godrich'
     && (!isset($_POST['url']) || empty($_POST['url']))) {
     echo '<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
      <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/apple-touch-icon.png">
