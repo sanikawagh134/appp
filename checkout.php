@@ -5,8 +5,8 @@ error_reporting(0);
 // Random information API
 //$resp = file_get_contents("https://lehikasa.online/random/?xiao=us");
 //$a = json_decode($resp);
-//$full_name  = $a->hello->person->full_name ?? "Alice Schuberg";
-//$name = $a->hello->person->first_name ?? "Alice";
+//$full_name  = $a->hello->person->full_name ?? "RICH";
+//$name = $a->hello->person->first_name ?? "RICH";
 //$lname  = $a->hello->person->last_name ?? "Schuberg";
 //$phone      = $a->hello->person->phone;
 //$ua         = $a->hello->person->ua;
@@ -20,7 +20,7 @@ error_reporting(0);
 //$fivenums   = rand(1000, 9999); // Generate 5 random numbers
 
 $first_names = array(
-    "Alice", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quentin", "Rachel", "Sophia", "Thomas", "Ursula", "Victoria", "William", "Xavier", "Yvette", "Zachary"
+    "RICH", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quentin", "Rachel", "Sophia", "Thomas", "Ursula", "Victoria", "William", "Xavier", "Yvette", "Zachary"
 );
 $last_names = array(
     "Anderson", "Brown", "Clark", "Davis", "Edwards", "Ford", "Garcia", "Harris", "Irwin", "Jones", "Keller", "Lewis", "Martinez", "Nelson", "O'Brien", "Parker", "Quinn", "Rodriguez", "Smith", "Taylor", "Unger", "Valdez", "Williams", "Xu", "Young", "Zhang"
@@ -110,14 +110,14 @@ $pk = $_GET['pklive'];
 $colink = $_GET['colink'];
 $amt = $_GET['xamount'];
 if (empty($_GET['xemail'])) {
-    $email = 'phcaliceschuberg' . rand(000000, 999999) . '@gmail.com';
+    $email = 'phcRICHschuberg' . rand(000000, 999999) . '@gmail.com';
     $xemail = str_replace('@', '%40', $email);
 } elseif (!empty($_GET['xemail'])) {
     $email = $_GET['xemail'];
     $xemail = str_replace('@', '%40', $email);
 }
 
-// rotating proxy by Alice if failed hosting server magiging ip
+// rotating proxy by RICH if failed hosting server magiging ip
 $hydra = isset($_GET['hydra']) ? $_GET['hydra'] : '';
 $ip = isset($_GET['ip']) ? $_GET['ip'] : '';
 $ip_nums = array(
